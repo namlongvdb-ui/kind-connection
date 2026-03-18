@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        body: ['"Be Vietnam Pro"', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -47,6 +50,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        bidv: {
+          blue: "hsl(var(--bidv-blue))",
+          gold: "hsl(var(--bidv-gold))",
+          red: "hsl(var(--bidv-red))",
+        },
+        paper: "hsl(var(--paper))",
+        ink: "hsl(var(--ink))",
+        desk: "hsl(var(--desk))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
