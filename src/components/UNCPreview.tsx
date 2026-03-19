@@ -75,7 +75,7 @@ export default function UNCPreview({ formData }: Props) {
               <FieldRow label="Tại Ngân hàng" sublabel="At Bank" value={formData.payerBank} />
             </div>
 
-            {/* Amount */}
+            {/* Amount + Exchange & Fee */}
             <div className="space-y-[1px] border-l border-r border-ink/40" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
               <div className="flex gap-1.5 items-baseline" style={{ lineHeight: '1.8' }}>
                 <span className="font-bold whitespace-nowrap text-bidv-blue" style={{ fontSize: '9.5pt' }}>Số tiền bằng số</span>
@@ -88,11 +88,7 @@ export default function UNCPreview({ formData }: Props) {
                 <span className="italic text-bidv-blue/60 whitespace-nowrap" style={{ fontSize: '8pt' }}>/Amount in words:</span>
                 <DottedValue value={formData.amountWords} />
               </div>
-            </div>
-
-            {/* Exchange & Fee */}
-            <div className="space-y-[1px] border-l border-r border-ink/40" style={{ fontSize: '9pt', borderBottom: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
-              <div className="flex gap-1.5 items-baseline" style={{ lineHeight: '1.8' }}>
+              <div className="flex gap-1.5 items-baseline" style={{ lineHeight: '1.8', fontSize: '9pt' }}>
                 <span className="font-bold whitespace-nowrap text-bidv-blue">Đề nghị quy đổi ra</span>
                 <span className="italic text-bidv-blue/60" style={{ fontSize: '7.5pt' }}>/Request for changing into:</span>
                 <DottedValue value="" />
