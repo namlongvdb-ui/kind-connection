@@ -51,9 +51,9 @@ export default function UNCPreview({ formData }: Props) {
         {/* Content */}
         <div className="relative" style={{ zIndex: 1, padding: '8mm 12mm 10mm 12mm' }}>
           {/* Header - logo is already in watermark image, just add title */}
-          <div className="flex items-start justify-center mb-0" style={{ paddingTop: '14mm' }}>
+          <div className="flex items-start justify-center mb-0" style={{ paddingTop: '8mm' }}>
             <div className="text-center">
-              <h1 className="font-bold text-bidv-blue leading-tight tracking-wide" style={{ fontSize: '15pt' }}>ỦY NHIỆM CHI</h1>
+              <h1 className="font-bold text-bidv-blue leading-tight tracking-wide" style={{ fontSize: '18pt', fontFamily: 'Roboto, sans-serif' }}>ỦY NHIỆM CHI</h1>
               <p className="italic text-ink/50" style={{ fontSize: '9pt' }}>PAYMENT ORDER</p>
             </div>
           </div>
