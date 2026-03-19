@@ -62,8 +62,8 @@ export default function UNCPreview({ formData }: Props) {
           <div className="border border-ink/40" style={{ marginTop: '3mm', padding: '2mm 3mm' }}>
             {/* Date */}
             <div className="text-right mb-1">
-              <span className="font-bold text-ink" style={{ fontSize: '9.5pt' }}>Ngày</span>
-              <span className="italic text-ink/50" style={{ fontSize: '8pt' }}>/Date: </span>
+              <span className="font-bold text-bidv-blue" style={{ fontSize: '9.5pt' }}>Ngày</span>
+              <span className="italic text-bidv-blue/60" style={{ fontSize: '8pt' }}>/Date: </span>
               <span className="font-bold" style={{ fontSize: '9.5pt' }}>{formData.date}</span>
             </div>
 
