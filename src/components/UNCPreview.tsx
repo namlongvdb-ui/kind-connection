@@ -69,7 +69,6 @@ export default function UNCPreview({ formData }: Props) {
 
             {/* Payer Section */}
             <div className="space-y-[1px] mb-1" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.15)', paddingBottom: '2mm' }}>
-              <p className="font-bold text-bidv-blue uppercase" style={{ fontSize: '9pt', marginBottom: '1mm' }}>Bên trả tiền <span className="italic font-normal" style={{ fontSize: '8pt' }}>/ Payer</span></p>
               <FieldRow label="Tên tài khoản trích nợ" sublabel="Dr A/C name" value={formData.payerName} />
               <FieldRow label="Địa chỉ" sublabel="Address" value={formData.payerAddress} />
               <FieldRow label="Số tài khoản trích nợ" sublabel="Dr A/C No" value={formData.payerAccount} mono />
