@@ -68,8 +68,8 @@ export default function UNCPreview({ formData }: Props) {
             </div>
 
             {/* Payer Section */}
-            <div className="space-y-[1px] border-l border-r border-ink/40" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', borderTop: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
-              <div className="bg-bidv-blue/10 -mx-[3mm] px-[3mm] py-[0.5mm]">
+            <div className="space-y-[1px] border-l border-r border-ink/40" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', borderTop: '1px solid hsl(0 0% 12% / 0.4)', padding: '0 3mm 1mm 3mm' }}>
+              <div className="bg-bidv-blue/10 -mx-[3mm] px-[3mm] py-[0.5mm] -mt-0">
                 <div className="flex gap-1.5 items-baseline" style={{ lineHeight: '1.8' }}>
                   <span className="font-bold whitespace-nowrap text-bidv-blue" style={{ fontSize: '9.5pt' }}>Tên tài khoản trích nợ</span>
                   <span className="italic text-ink whitespace-nowrap" style={{ fontSize: '8pt' }}>/Dr A/C name:</span>
