@@ -59,16 +59,16 @@ export default function UNCPreview({ formData }: Props) {
           </div>
 
           {/* Bordered content area - no top border */}
-          <div className="border-l border-r border-b border-ink/40" style={{ marginTop: '3mm' }}>
+          <div style={{ marginTop: '3mm' }}>
             {/* Date */}
-            <div className="text-right" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
+            <div className="text-right" style={{ padding: '1mm 3mm' }}>
               <span className="font-bold text-bidv-blue" style={{ fontSize: '9.5pt' }}>Ngày</span>
               <span className="italic text-bidv-blue/60" style={{ fontSize: '8pt' }}>/Date: </span>
               <span className="font-bold" style={{ fontSize: '9.5pt' }}>{formData.date}</span>
             </div>
 
             {/* Payer Section */}
-            <div className="space-y-[1px]" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
+            <div className="space-y-[1px] border-l border-r border-ink/40" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', borderTop: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
               <FieldRow label="Tên tài khoản trích nợ" sublabel="Dr A/C name" value={formData.payerName} />
               <FieldRow label="Địa chỉ" sublabel="Address" value={formData.payerAddress} />
               <FieldRow label="Số tài khoản trích nợ" sublabel="Dr A/C No" value={formData.payerAccount} mono />
@@ -76,7 +76,7 @@ export default function UNCPreview({ formData }: Props) {
             </div>
 
             {/* Amount */}
-            <div className="space-y-[1px]" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
+            <div className="space-y-[1px] border-l border-r border-ink/40" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
               <div className="flex gap-1.5 items-baseline" style={{ lineHeight: '1.8' }}>
                 <span className="font-bold whitespace-nowrap text-bidv-blue" style={{ fontSize: '9.5pt' }}>Số tiền bằng số</span>
                 <span className="italic text-bidv-blue/60 whitespace-nowrap" style={{ fontSize: '8pt' }}>/Amount in figures:</span>
@@ -91,7 +91,7 @@ export default function UNCPreview({ formData }: Props) {
             </div>
 
             {/* Exchange & Fee */}
-            <div className="space-y-[1px]" style={{ fontSize: '9pt', borderBottom: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
+            <div className="space-y-[1px] border-l border-r border-ink/40" style={{ fontSize: '9pt', borderBottom: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
               <div className="flex gap-1.5 items-baseline" style={{ lineHeight: '1.8' }}>
                 <span className="font-bold whitespace-nowrap text-bidv-blue">Đề nghị quy đổi ra</span>
                 <span className="italic text-bidv-blue/60" style={{ fontSize: '7.5pt' }}>/Request for changing into:</span>
@@ -120,7 +120,7 @@ export default function UNCPreview({ formData }: Props) {
             </div>
 
             {/* Beneficiary Section */}
-            <div className="space-y-[1px]" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
+            <div className="space-y-[1px] border-l border-r border-ink/40" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
               <FieldRow label="Người hưởng" sublabel="Beneficiary" value={formData.beneficiaryName} />
               <div className="flex gap-3">
                 <div className="flex gap-1.5 items-baseline flex-1" style={{ lineHeight: '1.8' }}>
@@ -145,7 +145,7 @@ export default function UNCPreview({ formData }: Props) {
             </div>
 
             {/* Remarks */}
-            <div style={{ padding: '1mm 3mm' }}>
+            <div className="border-l border-r border-b border-ink/40" style={{ padding: '1mm 3mm' }}>
               <FieldRow label="Nội dung" sublabel="Remarks" value={formData.remarks} />
             </div>
           </div>
