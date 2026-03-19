@@ -166,28 +166,28 @@ export default function UNCPreview({ formData }: Props) {
           {/* Signatures */}
           <div className="grid grid-cols-[1fr_1fr_1px_1fr_1fr] gap-x-3 text-center" style={{ fontSize: '8pt', marginTop: '2mm' }}>
             <div>
-              <p className="font-bold uppercase" style={{ fontSize: '8.5pt' }}>Kế toán trưởng</p>
-              <p className="italic text-ink/40" style={{ fontSize: '7pt' }}>Chief Accountant</p>
-              <p className="italic text-ink/30 mt-0.5" style={{ fontSize: '6.5pt' }}>(Ký và ghi rõ họ tên)</p>
-              <p className="italic text-ink/30" style={{ fontSize: '6.5pt' }}>Signature & full name</p>
+              <p className="font-bold uppercase text-bidv-blue" style={{ fontSize: '8.5pt' }}>Kế toán trưởng</p>
+              <p className="italic text-ink" style={{ fontSize: '7pt' }}>Chief Accountant</p>
+              <p className="italic text-ink/50 mt-0.5" style={{ fontSize: '6.5pt' }}>(Ký và ghi rõ họ tên)</p>
+              <p className="italic text-ink/50" style={{ fontSize: '6.5pt' }}>Signature & full name</p>
               <div style={{ height: '55px' }} />
             </div>
             <div>
-              <p className="font-bold uppercase" style={{ fontSize: '8.5pt' }}>Chủ tài khoản</p>
-              <p className="italic text-ink/40" style={{ fontSize: '7pt' }}>Accountholder</p>
-              <p className="italic text-ink/30 mt-0.5" style={{ fontSize: '6.5pt' }}>(Ký và ghi rõ họ tên)</p>
-              <p className="italic text-ink/30" style={{ fontSize: '6.5pt' }}>Signature & full name</p>
+              <p className="font-bold uppercase text-bidv-blue" style={{ fontSize: '8.5pt' }}>Chủ tài khoản</p>
+              <p className="italic text-ink" style={{ fontSize: '7pt' }}>Accountholder</p>
+              <p className="italic text-ink/50 mt-0.5" style={{ fontSize: '6.5pt' }}>(Ký và ghi rõ họ tên)</p>
+              <p className="italic text-ink/50" style={{ fontSize: '6.5pt' }}>Signature & full name</p>
               <div style={{ height: '55px' }} />
             </div>
             <div className="bg-ink/10" />
             <div>
-              <p className="font-bold uppercase" style={{ fontSize: '8.5pt' }}>Giao dịch viên</p>
-              <p className="italic text-ink/40" style={{ fontSize: '7pt' }}>Teller</p>
+              <p className="font-bold uppercase text-bidv-blue" style={{ fontSize: '8.5pt' }}>Giao dịch viên</p>
+              <p className="italic text-ink" style={{ fontSize: '7pt' }}>Teller</p>
               <div style={{ height: '65px' }} />
             </div>
             <div>
-              <p className="font-bold uppercase" style={{ fontSize: '8.5pt' }}>Kiểm soát viên</p>
-              <p className="italic text-ink/40" style={{ fontSize: '7pt' }}>Supervisor</p>
+              <p className="font-bold uppercase text-bidv-blue" style={{ fontSize: '8.5pt' }}>Kiểm soát viên</p>
+              <p className="italic text-ink" style={{ fontSize: '7pt' }}>Supervisor</p>
               <div style={{ height: '65px' }} />
             </div>
           </div>
