@@ -164,7 +164,7 @@ export default function UNCPreview({ formData }: Props) {
           </p>
 
           {/* Signatures */}
-          <div className="grid grid-cols-[1fr_1fr_1px_1fr_1fr] gap-x-3 text-center" style={{ fontSize: '8pt', marginTop: '2mm' }}>
+          <div className="grid grid-cols-4 gap-x-3 text-center" style={{ fontSize: '8pt', marginTop: '2mm' }}>
             <div>
               <p className="font-bold uppercase text-bidv-blue" style={{ fontSize: '8.5pt' }}>Kế toán trưởng</p>
               <p className="italic text-ink" style={{ fontSize: '7pt' }}>Chief Accountant</p>
@@ -179,7 +179,6 @@ export default function UNCPreview({ formData }: Props) {
               <p className="italic text-ink/50" style={{ fontSize: '6.5pt' }}>Signature & full name</p>
               <div style={{ height: '55px' }} />
             </div>
-            <div className="bg-ink/10" />
             <div>
               <p className="font-bold uppercase text-bidv-blue" style={{ fontSize: '8.5pt' }}>Giao dịch viên</p>
               <p className="italic text-ink" style={{ fontSize: '7pt' }}>Teller</p>
@@ -192,10 +191,10 @@ export default function UNCPreview({ formData }: Props) {
             </div>
           </div>
 
-          {/* Thank you message */}
-          <div className="text-center italic text-ink/35" style={{ fontSize: '7.5pt', marginTop: '6mm' }}>
-            <p>Cảm ơn quý khách hàng đã sử dụng dịch vụ của BIDV</p>
-            <p>Thank you for using BIDV's services</p>
+          {/* Thank you message - pinned to bottom */}
+          <div className="absolute bottom-0 left-0 right-0 text-center" style={{ fontSize: '7.5pt', padding: '0 12mm 5mm 12mm' }}>
+            <p className="font-bold text-bidv-blue">Cảm ơn quý khách hàng đã sử dụng dịch vụ của BIDV</p>
+            <p className="italic text-ink">Thank you for using BIDV's services</p>
           </div>
         </div>
       </div>
