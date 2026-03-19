@@ -54,7 +54,7 @@ export default function UNCPreview({ formData }: Props) {
           <div className="flex items-start justify-center mb-0" style={{ paddingTop: '8mm' }}>
             <div className="text-center">
               <h1 className="font-bold text-bidv-blue leading-tight tracking-wide" style={{ fontSize: '18pt', fontFamily: 'Roboto, sans-serif' }}>ỦY NHIỆM CHI</h1>
-              <p className="italic text-ink/50" style={{ fontSize: '9pt' }}>PAYMENT ORDER</p>
+              <p className="italic text-bidv-blue" style={{ fontSize: '13pt', fontFamily: 'Roboto, sans-serif' }}>PAYMENT ORDER</p>
             </div>
           </div>
 
