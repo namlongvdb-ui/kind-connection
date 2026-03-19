@@ -131,7 +131,7 @@ export default function UNCPreview({ formData }: Props) {
               <div className="flex gap-3">
                 <div className="flex gap-1.5 items-baseline flex-1" style={{ lineHeight: '1.8' }}>
                   <span className="font-bold whitespace-nowrap text-bidv-blue" style={{ fontSize: '9.5pt' }}>Số CCCD/HC</span>
-                  <span className="italic text-bidv-blue/60" style={{ fontSize: '8pt' }}>/ID No:</span>
+                  <span className="italic text-ink" style={{ fontSize: '8pt' }}>/ID No:</span>
                   <DottedValue value={formData.beneficiaryCCCD} mono />
                 </div>
                 <div className="flex gap-1.5 items-baseline flex-1" style={{ lineHeight: '1.8' }}>
