@@ -68,8 +68,8 @@ export default function UNCPreview({ formData }: Props) {
             </div>
 
             {/* Payer Section */}
-            <div className="space-y-[1px] border-l border-r border-ink/40" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', borderTop: '1px solid hsl(0 0% 12% / 0.4)', padding: '1mm 3mm' }}>
-              <div className="bg-bidv-blue/10 -mx-[3mm] px-[3mm] py-[0.5mm]">
+            <div className="space-y-[1px] border-l border-r border-ink/40" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', borderTop: '1px solid hsl(0 0% 12% / 0.4)', padding: '0 3mm 1mm 3mm' }}>
+              <div className="bg-bidv-blue/10 -mx-[3mm] px-[3mm] py-[0.5mm] -mt-0">
                 <div className="flex gap-1.5 items-baseline" style={{ lineHeight: '1.8' }}>
                   <span className="font-bold whitespace-nowrap text-bidv-blue" style={{ fontSize: '9.5pt' }}>Tên tài khoản trích nợ</span>
                   <span className="italic text-ink whitespace-nowrap" style={{ fontSize: '8pt' }}>/Dr A/C name:</span>
@@ -153,14 +153,14 @@ export default function UNCPreview({ formData }: Props) {
             {/* Remarks */}
             <div className="border-l border-r border-b border-ink/40" style={{ padding: '1mm 3mm' }}>
               <FieldRow label="Nội dung" sublabel="Remarks" value={formData.remarks} />
+              <div className="border-b border-dotted border-ink/30" style={{ minHeight: '1.6em', lineHeight: '1.8' }}>{'\u00A0'}</div>
             </div>
           </div>
 
           {/* Confirmation text */}
-          <p className="italic text-ink text-center" style={{ fontSize: '8pt', marginTop: '3mm', marginBottom: '4mm' }}>
-            <span className="font-bold not-italic text-bidv-blue" style={{ fontSize: '8.5pt' }}>Khách hàng xác nhận các thông tin trên là chính xác</span>
-            <br />
-            <span className="text-ink">Please sign to confirm the above information is accurate</span>
+          <p className="text-center" style={{ fontSize: '8pt', marginTop: '3mm', marginBottom: '4mm' }}>
+            <span className="font-bold text-bidv-blue" style={{ fontSize: '8.5pt' }}>Khách hàng xác nhận các thông tin trên là chính xác</span>
+            <span className="italic text-ink" style={{ fontSize: '8pt' }}> / Please sign to confirm the above information is accurate</span>
           </p>
 
           {/* Signatures */}
