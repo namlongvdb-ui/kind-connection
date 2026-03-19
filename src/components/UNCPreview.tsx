@@ -72,7 +72,7 @@ export default function UNCPreview({ formData }: Props) {
               <div className="bg-bidv-blue/10 -mx-[3mm] px-[3mm] py-[0.5mm]">
                 <div className="flex gap-1.5 items-baseline" style={{ lineHeight: '1.8' }}>
                   <span className="font-bold whitespace-nowrap text-bidv-blue" style={{ fontSize: '9.5pt' }}>Tên tài khoản trích nợ</span>
-                  <span className="italic text-bidv-blue/60 whitespace-nowrap" style={{ fontSize: '8pt' }}>/Dr A/C name:</span>
+                  <span className="italic text-ink whitespace-nowrap" style={{ fontSize: '8pt' }}>/Dr A/C name:</span>
                 </div>
                 <div style={{ minHeight: '1.6em', lineHeight: '1.8' }}>{formData.payerName || '\u00A0'}</div>
               </div>
