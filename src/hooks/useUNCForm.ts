@@ -46,5 +46,5 @@ export function useUNCForm() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  return { formData, updateField };
+  return { formData, updateField, setFormData };
 }

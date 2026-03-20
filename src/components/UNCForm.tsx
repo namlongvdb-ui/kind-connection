@@ -3,12 +3,19 @@ import { UNCFormData } from '@/hooks/useUNCForm';
 import { Beneficiary } from '@/hooks/useBeneficiaries';
 import { numberToVietnameseWords, formatCurrency } from '@/lib/numberToWords';
 
+import { TransactionRecord } from '@/hooks/useTransactionHistory';
+import { exportUNCToPDF } from '@/lib/exportPDF';
+
 interface Props {
   formData: UNCFormData;
   updateField: (field: keyof UNCFormData, value: string) => void;
   beneficiaries: Beneficiary[];
   onSaveBeneficiary: (b: Omit<Beneficiary, 'id'>) => void;
   onRemoveBeneficiary: (id: string) => void;
+  history: TransactionRecord[];
+  onSaveTransaction: () => void;
+  onLoadTransaction: (record: TransactionRecord) => void;
+  onRemoveTransaction: (id: string) => void;
 }
 
 const InputField = ({ label, sublabel, value, onChange, placeholder, mono, type }: {
@@ -29,8 +36,22 @@ const InputField = ({ label, sublabel, value, onChange, placeholder, mono, type 
   </div>
 );
 
-export default function UNCForm({ formData, updateField, beneficiaries, onSaveBeneficiary, onRemoveBeneficiary }: Props) {
+export default function UNCForm({ formData, updateField, beneficiaries, onSaveBeneficiary, onRemoveBeneficiary, history, onSaveTransaction, onLoadTransaction, onRemoveTransaction }: Props) {
   const [showPicker, setShowPicker] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [exporting, setExporting] = useState(false);
+
+  const handleExportPDF = async () => {
+    setExporting(true);
+    try {
+      await exportUNCToPDF();
+      onSaveTransaction();
+    } catch (e) {
+      console.error('PDF export failed', e);
+    } finally {
+      setExporting(false);
+    }
+  };
 
   const handleAmountChange = (val: string) => {
     const cleaned = val.replace(/[^\d]/g, '');
@@ -190,14 +211,66 @@ export default function UNCForm({ formData, updateField, beneficiaries, onSaveBe
           />
         </section>
 
-        {/* Print button */}
-        <button
-          type="button"
-          onClick={() => window.print()}
-          className="w-full py-3 bg-bidv-blue text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity text-sm"
-        >
-          🖨️ In Ủy nhiệm chi
-        </button>
+        {/* Action buttons */}
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={handleExportPDF}
+            disabled={exporting}
+            className="flex-1 py-3 bg-bidv-blue text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity text-sm disabled:opacity-50"
+          >
+            {exporting ? '⏳ Đang xuất...' : '📄 Xuất PDF'}
+          </button>
+          <button
+            type="button"
+            onClick={() => window.print()}
+            className="py-3 px-4 border border-bidv-blue text-bidv-blue font-semibold rounded hover:bg-bidv-blue/10 transition-colors text-sm"
+          >
+            🖨️ In
+          </button>
+        </div>
+
+        {/* Transaction History */}
+        <section className="space-y-2">
+          <button
+            type="button"
+            onClick={() => setShowHistory(!showHistory)}
+            className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-bidv-blue"
+          >
+            📋 Lịch sử giao dịch ({history.length})
+            <span className="text-[9px]">{showHistory ? '▲' : '▼'}</span>
+          </button>
+
+          {showHistory && (
+            <div className="border border-border rounded-md bg-card max-h-60 overflow-y-auto">
+              {history.length === 0 ? (
+                <p className="text-xs text-muted-foreground p-3 text-center italic">Chưa có giao dịch nào</p>
+              ) : (
+                history.map(record => (
+                  <div
+                    key={record.id}
+                    className="flex items-center justify-between px-3 py-2 hover:bg-muted/50 border-b border-border last:border-0 group cursor-pointer"
+                    onClick={() => onLoadTransaction(record)}
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-medium text-foreground truncate">
+                        {record.formData.beneficiaryName || 'Không tên'} — {record.formData.amount ? formatCurrency(parseInt(record.formData.amount)) + ' VNĐ' : '0 VNĐ'}
+                      </p>
+                      <p className="text-[10px] text-muted-foreground">{record.savedAt}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); onRemoveTransaction(record.id); }}
+                      className="text-destructive/50 hover:text-destructive text-xs ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </section>
       </form>
     </aside>
   );
