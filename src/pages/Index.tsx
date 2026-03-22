@@ -1,16 +1,36 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import UNCForm from '@/components/UNCForm';
+import UNCPreview from '@/components/UNCPreview';
+import { useUNCForm } from '@/hooks/useUNCForm';
+import { useBeneficiaries } from '@/hooks/useBeneficiaries';
+import { useTransactionHistory, TransactionRecord } from '@/hooks/useTransactionHistory';
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const { formData, updateField, setFormData } = useUNCForm();
+  const { beneficiaries, addBeneficiary, removeBeneficiary } = useBeneficiaries();
+  const { history, saveTransaction, removeTransaction } = useTransactionHistory();
+
+  const handleSaveTransaction = () => saveTransaction(formData);
+
+  const handleLoadTransaction = (record: TransactionRecord) => {
+    setFormData(record.formData);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="flex h-screen overflow-hidden">
+      <UNCForm
+        formData={formData}
+        updateField={updateField}
+        beneficiaries={beneficiaries}
+        onSaveBeneficiary={addBeneficiary}
+        onRemoveBeneficiary={removeBeneficiary}
+        history={history}
+        onSaveTransaction={handleSaveTransaction}
+        onLoadTransaction={handleLoadTransaction}
+        onRemoveTransaction={removeTransaction}
+      />
+      <UNCPreview formData={formData} />
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
