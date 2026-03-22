@@ -44,7 +44,6 @@ export function numberToVietnameseWords(num: number): string {
   let result = '';
   for (let i = groups.length - 1; i >= 0; i--) {
     if (groups[i] > 0) {
-      // Add leading zero handling for middle groups
       if (i < groups.length - 1 && groups[i] < 100 && groups[i] > 0) {
         if (groups[i] < 10) result += 'không trăm lẻ ';
         else result += 'không trăm ';
@@ -56,7 +55,6 @@ export function numberToVietnameseWords(num: number): string {
   }
 
   result = result.trim();
-  // Capitalize first letter
   result = result.charAt(0).toUpperCase() + result.slice(1);
   return result + ' đồng./.';
 }

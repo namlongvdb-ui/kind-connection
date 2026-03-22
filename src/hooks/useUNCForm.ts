@@ -22,7 +22,7 @@ export interface UNCFormData {
 export function useUNCForm() {
   const today = new Date();
   const dateStr = `${String(today.getDate()).padStart(2,'0')}/${String(today.getMonth()+1).padStart(2,'0')}/${today.getFullYear()}`;
-  
+
   const [formData, setFormData] = useState<UNCFormData>({
     date: dateStr,
     payerName: '',

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { UNCFormData } from '@/hooks/useUNCForm';
 import { Beneficiary } from '@/hooks/useBeneficiaries';
 import { numberToVietnameseWords, formatCurrency } from '@/lib/numberToWords';
-
 import { TransactionRecord } from '@/hooks/useTransactionHistory';
 import { exportUNCToPDF } from '@/lib/exportPDF';
 
@@ -85,193 +84,116 @@ export default function UNCForm({ formData, updateField, beneficiaries, onSaveBe
   };
 
   return (
-    <aside className="w-[420px] min-w-[380px] bg-card border-r border-border overflow-y-auto flex-shrink-0">
-      <div className="p-6 pb-2">
-        <header className="mb-6">
-          <h1 className="text-lg font-bold text-foreground">Lập Ủy nhiệm chi</h1>
-          <p className="text-xs text-muted-foreground">BIDV Payment Order — Mẫu C014</p>
-        </header>
+    <aside className="w-[420px] shrink-0 bg-card border-r border-border flex flex-col h-screen overflow-hidden">
+      {/* Header */}
+      <div className="bg-primary px-5 py-4 text-primary-foreground">
+        <h2 className="text-lg font-bold tracking-wide">ỦY NHIỆM CHI</h2>
+        <p className="text-xs opacity-80">Nhập thông tin để tạo UNC</p>
       </div>
 
-      <form className="px-6 pb-8 space-y-6" onSubmit={e => e.preventDefault()}>
+      {/* Scrollable form */}
+      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
         {/* Date */}
-        <InputField label="Ngày" sublabel="/Date" value={formData.date} onChange={v => updateField('date', v)} placeholder="dd/mm/yyyy" />
+        <InputField label="Ngày" sublabel="Date" value={formData.date} onChange={v => updateField('date', v)} placeholder="DD/MM/YYYY" />
 
         {/* Payer section */}
-        <section className="space-y-3">
-          <h2 className="text-[11px] font-semibold uppercase tracking-wider text-bidv-blue">Bên trả tiền / Payer</h2>
-          <InputField label="Tên tài khoản trích nợ" sublabel="/Dr A/C name" value={formData.payerName} onChange={v => updateField('payerName', v)} placeholder="Tên đơn vị / Cá nhân" />
-          <InputField label="Địa chỉ" sublabel="/Address" value={formData.payerAddress} onChange={v => updateField('payerAddress', v)} placeholder="Địa chỉ" />
-          <InputField label="Số tài khoản trích nợ" sublabel="/Dr A/C No" value={formData.payerAccount} onChange={v => updateField('payerAccount', v)} placeholder="Số tài khoản" mono />
-          <InputField label="Tại Ngân hàng" sublabel="/At Bank" value={formData.payerBank} onChange={v => updateField('payerBank', v)} placeholder="BIDV - Chi nhánh..." />
-        </section>
+        <div className="space-y-3">
+          <p className="text-xs font-bold text-primary uppercase tracking-wider">Bên trả tiền</p>
+          <InputField label="Tên tài khoản trích nợ" sublabel="Dr A/C name" value={formData.payerName} onChange={v => updateField('payerName', v)} placeholder="Nhập tên chủ tài khoản" />
+          <InputField label="Địa chỉ" sublabel="Address" value={formData.payerAddress} onChange={v => updateField('payerAddress', v)} />
+          <InputField label="Số tài khoản" sublabel="Dr A/C No" value={formData.payerAccount} onChange={v => updateField('payerAccount', v)} mono />
+          <InputField label="Tại Ngân hàng" sublabel="At Bank" value={formData.payerBank} onChange={v => updateField('payerBank', v)} />
+        </div>
 
-        {/* Amount section */}
-        <section className="space-y-3">
-          <h2 className="text-[11px] font-semibold uppercase tracking-wider text-bidv-blue">Số tiền / Amount</h2>
-          <div className="relative">
-            <InputField label="Số tiền bằng số" sublabel="/Amount in figures" value={displayAmount} onChange={handleAmountChange} placeholder="0" mono />
-            <span className="absolute right-0 bottom-2 text-xs text-muted-foreground font-medium">VNĐ</span>
+        {/* Amount */}
+        <div className="space-y-3">
+          <p className="text-xs font-bold text-primary uppercase tracking-wider">Số tiền</p>
+          <InputField label="Số tiền bằng số" sublabel="Amount in figures" value={displayAmount} onChange={handleAmountChange} placeholder="0" mono />
+          <div>
+            <label className="block text-xs font-medium text-muted-foreground mb-1">Số tiền bằng chữ <span className="font-normal italic text-muted-foreground/70">Amount in words</span></label>
+            <p className="text-sm text-foreground min-h-[2em] border-b border-border py-2">{formData.amountWords || '\u00A0'}</p>
           </div>
-          {formData.amountWords && (
-            <div className="bg-muted/50 rounded p-2 text-xs italic text-muted-foreground">
-              <span className="font-medium text-foreground">Bằng chữ:</span> {formData.amountWords}
+          <div>
+            <label className="block text-xs font-medium text-muted-foreground mb-1">Loại phí <span className="font-normal italic text-muted-foreground/70">Fee type</span></label>
+            <div className="flex gap-4 mt-1">
+              {(['deduct', 'cash', 'account'] as const).map(ft => (
+                <label key={ft} className="flex items-center gap-1.5 text-sm cursor-pointer">
+                  <input type="radio" name="feeType" checked={formData.feeType === ft} onChange={() => updateField('feeType', ft)} className="accent-primary" />
+                  {ft === 'deduct' ? 'Trích nợ' : ft === 'cash' ? 'Tiền mặt' : 'Tài khoản'}
+                </label>
+              ))}
             </div>
-          )}
-        </section>
-
-        {/* Fee type */}
-        <section className="space-y-2">
-          <h2 className="text-[11px] font-semibold uppercase tracking-wider text-bidv-blue">Phí / Fee</h2>
-          <div className="flex gap-3 text-xs">
-            {[
-              { key: 'deduct' as const, label: 'Trong số tiền chuyển' },
-              { key: 'cash' as const, label: 'Thu từ tiền mặt' },
-              { key: 'account' as const, label: 'Thu từ tài khoản' },
-            ].map(opt => (
-              <label key={opt.key} className="flex items-center gap-1 cursor-pointer">
-                <input type="radio" name="feeType" checked={formData.feeType === opt.key} onChange={() => updateField('feeType', opt.key)} className="accent-bidv-blue" />
-                <span className="text-muted-foreground">{opt.label}</span>
-              </label>
-            ))}
           </div>
-        </section>
+        </div>
 
-        {/* Beneficiary section */}
-        <section className="space-y-3">
+        {/* Beneficiary */}
+        <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-[11px] font-semibold uppercase tracking-wider text-bidv-blue">Bên nhận tiền / Beneficiary</h2>
-            <div className="flex gap-1">
+            <p className="text-xs font-bold text-primary uppercase tracking-wider">Người hưởng</p>
+            <div className="flex gap-2">
               {beneficiaries.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setShowPicker(!showPicker)}
-                  className="text-[10px] px-2 py-0.5 rounded border border-bidv-blue/30 text-bidv-blue hover:bg-bidv-blue/10 transition-colors"
-                >
-                  📋 Chọn nhanh ({beneficiaries.length})
+                <button onClick={() => setShowPicker(!showPicker)} className="text-xs text-primary hover:underline">
+                  Chọn từ DS
                 </button>
               )}
-              <button
-                type="button"
-                onClick={handleSaveCurrent}
-                disabled={!formData.beneficiaryName || !formData.beneficiaryAccount}
-                className="text-[10px] px-2 py-0.5 rounded border border-bidv-blue/30 text-bidv-blue hover:bg-bidv-blue/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-              >
-                💾 Lưu
+              <button onClick={handleSaveCurrent} className="text-xs text-accent hover:underline">
+                Lưu người hưởng
               </button>
             </div>
           </div>
 
-          {/* Beneficiary picker dropdown */}
           {showPicker && (
-            <div className="border border-border rounded-md bg-card shadow-lg max-h-48 overflow-y-auto">
+            <div className="bg-muted rounded-md p-2 space-y-1 max-h-32 overflow-y-auto">
               {beneficiaries.map(b => (
-                <div
-                  key={b.id}
-                  className="flex items-center justify-between px-3 py-2 hover:bg-muted/50 cursor-pointer border-b border-border last:border-0 group"
-                >
-                  <div
-                    className="flex-1 min-w-0"
-                    onClick={() => handleSelectBeneficiary(b)}
-                  >
-                    <p className="text-xs font-medium text-foreground truncate">{b.name}</p>
-                    <p className="text-[10px] text-muted-foreground font-mono">{b.account} — {b.bank}</p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); onRemoveBeneficiary(b.id); }}
-                    className="text-destructive/50 hover:text-destructive text-xs ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    ✕
-                  </button>
+                <div key={b.id} className="flex items-center justify-between text-xs p-1.5 hover:bg-background rounded cursor-pointer" onClick={() => handleSelectBeneficiary(b)}>
+                  <span>{b.name} - {b.account}</span>
+                  <button onClick={e => { e.stopPropagation(); onRemoveBeneficiary(b.id); }} className="text-destructive hover:underline">Xóa</button>
                 </div>
               ))}
             </div>
           )}
 
-          <InputField label="Người hưởng" sublabel="/Beneficiary" value={formData.beneficiaryName} onChange={v => updateField('beneficiaryName', v)} placeholder="Tên người hưởng" />
+          <InputField label="Tên người hưởng" sublabel="Beneficiary" value={formData.beneficiaryName} onChange={v => updateField('beneficiaryName', v)} />
+          <InputField label="Số CCCD/HC" sublabel="ID No" value={formData.beneficiaryCCCD} onChange={v => updateField('beneficiaryCCCD', v)} mono />
           <div className="grid grid-cols-2 gap-3">
-            <InputField label="Số CCCD/HC" sublabel="/ID No" value={formData.beneficiaryCCCD} onChange={v => updateField('beneficiaryCCCD', v)} placeholder="" mono />
-            <InputField label="Ngày cấp" sublabel="/Date" value={formData.cccdDate} onChange={v => updateField('cccdDate', v)} placeholder="dd/mm/yyyy" />
+            <InputField label="Ngày cấp" sublabel="Date" value={formData.cccdDate} onChange={v => updateField('cccdDate', v)} />
+            <InputField label="Nơi cấp" sublabel="Place" value={formData.cccdPlace} onChange={v => updateField('cccdPlace', v)} />
           </div>
-          <InputField label="Nơi cấp" sublabel="/Place" value={formData.cccdPlace} onChange={v => updateField('cccdPlace', v)} placeholder="" />
-          <InputField label="Địa chỉ" sublabel="/Address" value={formData.beneficiaryAddress} onChange={v => updateField('beneficiaryAddress', v)} placeholder="Địa chỉ người hưởng" />
-          <InputField label="Số tài khoản" sublabel="/Ben's A/C No" value={formData.beneficiaryAccount} onChange={v => updateField('beneficiaryAccount', v)} placeholder="Số tài khoản" mono />
-          <InputField label="Tại Ngân hàng" sublabel="/At Bank" value={formData.beneficiaryBank} onChange={v => updateField('beneficiaryBank', v)} placeholder="BIDV - Chi nhánh..." />
-        </section>
+          <InputField label="Địa chỉ" sublabel="Address" value={formData.beneficiaryAddress} onChange={v => updateField('beneficiaryAddress', v)} />
+          <InputField label="Số tài khoản" sublabel="Ben's A/C No" value={formData.beneficiaryAccount} onChange={v => updateField('beneficiaryAccount', v)} mono />
+          <InputField label="Tại Ngân hàng" sublabel="At Bank" value={formData.beneficiaryBank} onChange={v => updateField('beneficiaryBank', v)} />
+        </div>
 
         {/* Remarks */}
-        <section className="space-y-3">
-          <h2 className="text-[11px] font-semibold uppercase tracking-wider text-bidv-blue">Nội dung / Remarks</h2>
-          <textarea
-            value={formData.remarks}
-            onChange={e => updateField('remarks', e.target.value)}
-            placeholder="Nội dung thanh toán"
-            className="w-full border border-border p-3 rounded bg-transparent outline-none focus:border-bidv-blue transition-colors h-20 resize-none text-sm text-foreground placeholder:text-muted-foreground/50"
-          />
-        </section>
+        <InputField label="Nội dung" sublabel="Remarks" value={formData.remarks} onChange={v => updateField('remarks', v)} placeholder="Nội dung chuyển khoản" />
+      </div>
 
-        {/* Action buttons */}
+      {/* Action buttons */}
+      <div className="px-5 py-3 border-t border-border space-y-2 bg-card">
         <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={handleExportPDF}
-            disabled={exporting}
-            className="flex-1 py-3 bg-bidv-blue text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity text-sm disabled:opacity-50"
-          >
-            {exporting ? '⏳ Đang xuất...' : '📄 Xuất PDF'}
+          <button onClick={handleExportPDF} disabled={exporting} className="flex-1 bg-primary text-primary-foreground py-2.5 rounded-md font-semibold text-sm hover:opacity-90 transition-opacity disabled:opacity-50">
+            {exporting ? 'Đang xuất...' : '📄 Xuất PDF'}
           </button>
-          <button
-            type="button"
-            onClick={() => window.print()}
-            className="py-3 px-4 border border-bidv-blue text-bidv-blue font-semibold rounded hover:bg-bidv-blue/10 transition-colors text-sm"
-          >
+          <button onClick={() => window.print()} className="px-4 py-2.5 border border-border rounded-md text-sm hover:bg-muted transition-colors">
             🖨️ In
           </button>
         </div>
-
-        {/* Transaction History */}
-        <section className="space-y-2">
-          <button
-            type="button"
-            onClick={() => setShowHistory(!showHistory)}
-            className="flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider text-bidv-blue"
-          >
-            📋 Lịch sử giao dịch ({history.length})
-            <span className="text-[9px]">{showHistory ? '▲' : '▼'}</span>
-          </button>
-
-          {showHistory && (
-            <div className="border border-border rounded-md bg-card max-h-60 overflow-y-auto">
-              {history.length === 0 ? (
-                <p className="text-xs text-muted-foreground p-3 text-center italic">Chưa có giao dịch nào</p>
-              ) : (
-                history.map(record => (
-                  <div
-                    key={record.id}
-                    className="flex items-center justify-between px-3 py-2 hover:bg-muted/50 border-b border-border last:border-0 group cursor-pointer"
-                    onClick={() => onLoadTransaction(record)}
-                  >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-foreground truncate">
-                        {record.formData.beneficiaryName || 'Không tên'} — {record.formData.amount ? formatCurrency(parseInt(record.formData.amount)) + ' VNĐ' : '0 VNĐ'}
-                      </p>
-                      <p className="text-[10px] text-muted-foreground">{record.savedAt}</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={(e) => { e.stopPropagation(); onRemoveTransaction(record.id); }}
-                      className="text-destructive/50 hover:text-destructive text-xs ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))
-              )}
-            </div>
-          )}
-        </section>
-      </form>
+        <button onClick={() => setShowHistory(!showHistory)} className="w-full text-xs text-muted-foreground hover:text-foreground transition-colors">
+          {showHistory ? '▲ Ẩn lịch sử' : '▼ Lịch sử giao dịch'} ({history.length})
+        </button>
+        {showHistory && history.length > 0 && (
+          <div className="max-h-40 overflow-y-auto space-y-1">
+            {history.map(r => (
+              <div key={r.id} className="flex items-center justify-between text-xs p-2 bg-muted rounded">
+                <button onClick={() => onLoadTransaction(r)} className="hover:underline text-left">
+                  {r.savedAt} - {r.formData.beneficiaryName || 'Chưa có'}
+                </button>
+                <button onClick={() => onRemoveTransaction(r.id)} className="text-destructive hover:underline">Xóa</button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </aside>
   );
 }

@@ -1,6 +1,6 @@
 import UNCForm from '@/components/UNCForm';
 import UNCPreview from '@/components/UNCPreview';
-import { useUNCForm, UNCFormData } from '@/hooks/useUNCForm';
+import { useUNCForm } from '@/hooks/useUNCForm';
 import { useBeneficiaries } from '@/hooks/useBeneficiaries';
 import { useTransactionHistory, TransactionRecord } from '@/hooks/useTransactionHistory';
 
@@ -16,7 +16,7 @@ const Index = () => {
   };
 
   return (
-    <div className="flex h-svh overflow-hidden bg-desk">
+    <div className="flex h-screen overflow-hidden">
       <UNCForm
         formData={formData}
         updateField={updateField}

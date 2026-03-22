@@ -43,14 +43,14 @@ export default function UNCPreview({ formData }: Props) {
           lineHeight: '1.7',
         }}
       >
-        {/* Watermark - full background like the original template */}
+        {/* Watermark */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
           <img src={bidvWatermark} alt="" className="w-full h-full object-cover" style={{ opacity: 1 }} />
         </div>
 
         {/* Content */}
         <div className="relative" style={{ zIndex: 1, padding: '8mm 12mm 10mm 12mm' }}>
-          {/* Header - logo is already in watermark image, just add title */}
+          {/* Header */}
           <div className="flex items-start justify-center mb-0" style={{ paddingTop: '8mm' }}>
             <div className="text-center">
               <h1 className="font-bold text-bidv-blue leading-tight tracking-wide" style={{ fontSize: '18pt', fontFamily: 'Roboto, sans-serif' }}>ỦY NHIỆM CHI</h1>
@@ -58,7 +58,7 @@ export default function UNCPreview({ formData }: Props) {
             </div>
           </div>
 
-          {/* Bordered content area - no top border */}
+          {/* Bordered content area */}
           <div style={{ marginTop: '3mm' }}>
             {/* Date */}
             <div className="text-right" style={{ padding: '1mm 3mm' }}>
@@ -170,28 +170,28 @@ export default function UNCPreview({ formData }: Props) {
               <p className="italic text-ink" style={{ fontSize: '7pt' }}>Chief Accountant</p>
               <p className="italic text-ink/50 mt-0.5" style={{ fontSize: '6.5pt' }}>(Ký và ghi rõ họ tên)</p>
               <p className="italic text-ink/50" style={{ fontSize: '6.5pt' }}>Signature & full name</p>
-              <div style={{ height: '55px' }} />
+              <div style={{ height: '55px' }}></div>
             </div>
             <div>
               <p className="font-bold uppercase text-bidv-blue" style={{ fontSize: '8.5pt' }}>Chủ tài khoản</p>
               <p className="italic text-ink" style={{ fontSize: '7pt' }}>Accountholder</p>
               <p className="italic text-ink/50 mt-0.5" style={{ fontSize: '6.5pt' }}>(Ký và ghi rõ họ tên)</p>
               <p className="italic text-ink/50" style={{ fontSize: '6.5pt' }}>Signature & full name</p>
-              <div style={{ height: '55px' }} />
+              <div style={{ height: '55px' }}></div>
             </div>
             <div>
               <p className="font-bold uppercase text-bidv-blue" style={{ fontSize: '8.5pt' }}>Giao dịch viên</p>
               <p className="italic text-ink" style={{ fontSize: '7pt' }}>Teller</p>
-              <div style={{ height: '65px' }} />
+              <div style={{ height: '65px' }}></div>
             </div>
             <div>
               <p className="font-bold uppercase text-bidv-blue" style={{ fontSize: '8.5pt' }}>Kiểm soát viên</p>
               <p className="italic text-ink" style={{ fontSize: '7pt' }}>Supervisor</p>
-              <div style={{ height: '65px' }} />
+              <div style={{ height: '65px' }}></div>
             </div>
           </div>
 
-          {/* Thank you message - pushed down 6cm from signatures */}
+          {/* Thank you message */}
           <div className="text-center" style={{ fontSize: '7.5pt', marginTop: '60mm' }}>
             <p className="font-bold text-bidv-blue">Cảm ơn quý khách hàng đã sử dụng dịch vụ của BIDV</p>
             <p className="italic text-ink">Thank you for using BIDV's services</p>
