@@ -28,7 +28,7 @@ export function useUNCForm() {
   const [formData, setFormData] = useState<UNCFormData>({
     date: dateStr,
     payerName: 'NHPTVN-Chi nhánh KV Bắc Đông Bắc, PGD Cao Bằng',
-    payerAddress: 'Số 32, phố Xuân trường, phường Thục Phán, tỉnh Cao Bằng',
+    payerAddress: 'Số 32, phố Xuân Trường, phường Thục Phán, tỉnh Cao Bằng',
     payerAccount: '3300013207',
     payerBank: 'BIDV - Chi nhánh Cao Bằng',
     amount: '',
