@@ -94,11 +94,11 @@ export default function UNCPreview({ formData }: Props) {
               <div className="flex flex-wrap gap-x-8 mt-2">
                 <div className="inline-block">
                   <span className="font-bold text-bidv-blue">Đề nghị quy đổi ra</span>
-                  <span className="italic text-ink text-[8pt]">/Request for changing into:
+                  <span className="italic text-ink text-[8pt]">/Request for changing into:</span>
                 </div>
                 <div className="inline-block">
                   <span className="font-bold text-bidv-blue">Tỷ giá</span>
-                  <span className="italic text-ink text-[8pt]">/Ex rate:
+                  <span className="italic text-ink text-[8pt]">/Ex rate:</span>
                 </div>
               </div>
 
