@@ -63,8 +63,14 @@ export default function UNCPreview({ formData }: Props) {
           <div className="border border-ink/40 w-full">
             
             {/* 1. Phần trả tiền */}
-            <div className="p-3 border-b border-ink/40 bg-bidv-blue/5">
-              <FieldRow label="Tên tài khoản trích nợ" sublabel="Dr A/C name" value={formData.payerName} />
+             <div className="space-y-[1px] border-l border-r border-ink/40" style={{ borderBottom: '1px solid hsl(0 0% 12% / 0.4)', borderTop: '1px solid hsl(0 0% 12% / 0.4)', padding: '0 3mm 1mm 3mm' }}>
+              <div className="bg-bidv-blue/10 -mx-[3mm] px-[3mm] py-[0.5mm] -mt-0">
+                <div className="flex gap-1.5 items-baseline" style={{ lineHeight: '1.8' }}>
+                  <span className="font-bold whitespace-nowrap text-bidv-blue" style={{ fontSize: '9.5pt' }}>Tên tài khoản trích nợ</span>
+                  <span className="italic text-ink whitespace-nowrap" style={{ fontSize: '8pt' }}>/Dr A/C name:</span>
+                </div>
+                <div style={{ minHeight: '1.6em', lineHeight: '1.8' }}>{formData.payerName || '\u00A0'}</div>
+              </div>
               <FieldRow label="Địa chỉ" sublabel="Address" value={formData.payerAddress} />
               <FieldRow label="Số tài khoản trích nợ" sublabel="Dr A/C No" value={formData.payerAccount} mono />
               <FieldRow label="Tại Ngân hàng" sublabel="At Bank" value={formData.payerBank} />
