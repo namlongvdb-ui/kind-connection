@@ -7,7 +7,7 @@ interface Props {
 }
 
 const DottedValue = ({ value, mono }: { value: string; mono?: boolean }) => (
-  <span className={`border-b border-dotted border-ink/30 flex-1 pb-0.5 min-h-[1.2em] ${mono ? 'font-mono tracking-[0.12em]' : ''}`}>
+  <span className={`flex-1 pb-0.5 min-h-[1.2em] break-words overflow-wrap-anywhere ${mono ? 'font-mono tracking-[0.12em]' : ''}`} style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}>
     {value || '\u00A0'}
   </span>
 );
