@@ -124,10 +124,15 @@ export default function UNCForm({ formData, updateField, beneficiaries, onSaveBe
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <InputField label="Đề nghị quy đổi ra" sublabel="Changing into" value={formData.exchangeTo} onChange={v => updateField('exchangeTo', v)} />
-            <InputField label="Tỷ giá" sublabel="Ex rate" value={formData.exchangeRate} onChange={v => updateField('exchangeRate', v)} />
-          </div>
+          {/* Thay đổi grid-cols-2 thành grid-cols-3 (tổng 3 phần) */}
+   <div className="grid grid-cols-3 gap-3">
+  {/* Thêm class col-span-2 để ô này chiếm 2 phần */}
+  <div className="col-span-2">
+    <InputField label="Đề nghị quy đổi ra" sublabel="Changing into" value={formData.exchangeTo} onChange={v => updateField('exchangeTo', v)} />
+  </div>
+  {/* Ô này mặc định chiếm 1 phần còn lại, nên nó sẽ nhỏ hơn */}
+  <InputField label="Tỷ giá" sublabel="Ex rate" value={formData.exchangeRate} onChange={v => updateField('exchangeRate', v)} />
+   </div>
         </div>
 
         {/* Beneficiary */}
