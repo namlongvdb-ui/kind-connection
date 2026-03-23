@@ -105,7 +105,7 @@ export default function UNCForm({ formData, updateField, beneficiaries, onSaveBe
         {/* Container cho chữ chạy */}
         <div className="w-full border-t border-primary-foreground/20 pt-2 overflow-hidden whitespace-nowrap">
           <div className="inline-block animate-marquee-infinite text-[10px] font-medium opacity-90">
-            Copyright by Trần Nam Long NHPTVN-Chi nhánh KV Bắc Đông Bắc, PGD Cao Bằng
+                  Copyright by Trần Nam Long VDB-Chi nhánh KV Bắc Đông Bắc, PGD Cao Bằng            
           </div>
         </div>
       </div>
