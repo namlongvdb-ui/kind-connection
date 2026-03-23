@@ -94,13 +94,11 @@ export default function UNCPreview({ formData }: Props) {
               <div className="flex flex-wrap gap-x-8 mt-2">
                 <div className="inline-block">
                   <span className="font-bold text-bidv-blue">Đề nghị quy đổi ra</span>
-                  <span className="italic text-ink text-[8pt]">/Request for changing into:</span>
-                  <span className="ml-2 border-b border-dotted border-black min-w-[50px] inline-block text-center">{formData.exchangeTo || '\u00A0'}</span>
+                  <span className="italic text-ink text-[8pt]">/Request for changing into:
                 </div>
                 <div className="inline-block">
                   <span className="font-bold text-bidv-blue">Tỷ giá</span>
-                  <span className="italic text-ink text-[8pt]">/Ex rate:</span>
-                  <span className="ml-2 border-b border-dotted border-black min-w-[80px] inline-block text-center">{formData.exchangeRate || '\u00A0'}</span>
+                  <span className="italic text-ink text-[8pt]">/Ex rate:
                 </div>
               </div>
 
@@ -160,10 +158,10 @@ export default function UNCPreview({ formData }: Props) {
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="absolute bottom-[15mm] left-0 right-0 text-center text-bidv-blue font-bold opacity-80">
-            <p className="text-[9pt]">Cảm ơn quý khách hàng đã sử dụng dịch vụ của BIDV</p>
-            <p className="text-[7.5pt] italic font-medium">Thank you for using BIDV's services</p>
+          {/* Thank you message - pushed down 6cm from signatures */}
+          <div className="text-center" style={{ fontSize: '7.5pt', marginTop: '60mm' }}>
+            <p className="font-bold text-bidv-blue">Cảm ơn quý khách hàng đã sử dụng dịch vụ của BIDV</p>
+            <p className="italic text-ink">Thank you for using BIDV's services</p>
           </div>
         </div>
       </div>
