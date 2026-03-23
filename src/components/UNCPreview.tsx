@@ -6,7 +6,6 @@ interface Props {
   formData: UNCFormData;
 }
 
-// Chỉnh lại FieldRow để nội dung có thể chạy xuống dưới chân Label
 const FieldRow = ({ label, sublabel, value, mono, className = "" }: { label: string; sublabel: string; value: string; mono?: boolean, className?: string }) => (
   <div className={`block w-full ${className}`} style={{ lineHeight: '1.8', marginBottom: '1px' }}>
     <span className="font-bold text-bidv-blue mr-1" style={{ fontSize: '9.5pt' }}>{label}</span>
@@ -63,7 +62,7 @@ export default function UNCPreview({ formData }: Props) {
           {/* Bordered Box */}
           <div className="border border-ink/40 w-full">
             
-            {/* Phần trả tiền */}
+            {/* 1. Phần trả tiền */}
             <div className="p-3 border-b border-ink/40 bg-bidv-blue/5">
               <FieldRow label="Tên tài khoản trích nợ" sublabel="Dr A/C name" value={formData.payerName} />
               <FieldRow label="Địa chỉ" sublabel="Address" value={formData.payerAddress} />
@@ -71,36 +70,40 @@ export default function UNCPreview({ formData }: Props) {
               <FieldRow label="Tại Ngân hàng" sublabel="At Bank" value={formData.payerBank} />
             </div>
 
-            {/* Số tiền & Quy đổi */}
-            <div className="p-3 border-b border-ink/40 space-y-1">
-              <div className="flex items-baseline">
-                <span className="font-bold text-bidv-blue mr-1">Số tiền bằng số</span>
-                <span className="italic text-ink mr-2">/Amount in figures:</span>
-                <span className="font-bold font-mono text-lg flex-1">{displayAmount}</span>
-                <span className="font-bold ml-2">VNĐ</span>
+            {/* 2. Số tiền & Quy đổi & Phí */}
+            <div className="p-3 border-b border-ink/40">
+              <div className="flex items-baseline flex-wrap">
+                <span className="font-bold text-bidv-blue mr-1" style={{ fontSize: '9.5pt' }}>Số tiền bằng số</span>
+                <span className="italic text-ink mr-2" style={{ fontSize: '8pt' }}>/Amount in figures:</span>
+                <div className="inline-flex items-baseline gap-2">
+                  <span className="font-bold font-mono text-[12pt] tracking-wider text-black">
+                    {displayAmount || ''}
+                  </span>
+                  {displayAmount && <span className="font-bold text-black" style={{ fontSize: '10pt' }}>VNĐ</span>}
+                </div>
               </div>
 
-              {/* TRƯỜNG QUAN TRỌNG: Số tiền bằng chữ (Sửa xuống dòng) */}
-              <div className="block w-full" style={{ lineHeight: '1.8' }}>
-                <span className="font-bold text-bidv-blue mr-1">Số tiền bằng chữ</span>
-                <span className="italic text-ink mr-2">/Amount in words:</span>
-                <span className="break-words leading-relaxed">{formData.amountWords || '............................................................................................................................................................................................................................................................'}</span>
+              <div className="block w-full mt-1" style={{ lineHeight: '1.8' }}>
+                <span className="font-bold text-bidv-blue mr-1" style={{ fontSize: '9.5pt' }}>Số tiền bằng chữ</span>
+                <span className="italic text-ink mr-2" style={{ fontSize: '8pt' }}>/Amount in words:</span>
+                <span className="break-words leading-relaxed italic" style={{ fontSize: '9.5pt' }}>
+                  {formData.amountWords || ''}
+                </span>
               </div>
 
               <div className="flex flex-wrap gap-x-8 mt-2">
-                 <div className="inline-block">
-                    <span className="font-bold text-bidv-blue">Đề nghị quy đổi ra</span>
-                    <span className="italic text-ink text-[8pt]">/Request for changing into:</span>
-                    <span className="ml-2 border-b border-dotted border-black min-w-[50px] inline-block text-center">{formData.exchangeTo || '\u00A0'}</span>
-                 </div>
-                 <div className="inline-block">
-                    <span className="font-bold text-bidv-blue">Tỷ giá</span>
-                    <span className="italic text-ink text-[8pt]">/Ex rate:</span>
-                    <span className="ml-2 border-b border-dotted border-black min-w-[80px] inline-block text-center">{formData.exchangeRate || '\u00A0'}</span>
-                 </div>
+                <div className="inline-block">
+                  <span className="font-bold text-bidv-blue">Đề nghị quy đổi ra</span>
+                  <span className="italic text-ink text-[8pt]">/Request for changing into:</span>
+                  <span className="ml-2 border-b border-dotted border-black min-w-[50px] inline-block text-center">{formData.exchangeTo || '\u00A0'}</span>
+                </div>
+                <div className="inline-block">
+                  <span className="font-bold text-bidv-blue">Tỷ giá</span>
+                  <span className="italic text-ink text-[8pt]">/Ex rate:</span>
+                  <span className="ml-2 border-b border-dotted border-black min-w-[80px] inline-block text-center">{formData.exchangeRate || '\u00A0'}</span>
+                </div>
               </div>
 
-              {/* Checkboxes Phí */}
               <div className="flex flex-wrap gap-x-6 gap-y-1 mt-2 text-[8.5pt]">
                 <div className="flex items-center"><Checkbox checked={formData.feeType === 'deduct'} /> <span className="font-bold text-bidv-blue">Phí trong số tiền chuyển</span><span className="italic ml-1">/Deduct</span></div>
                 <div className="flex items-center"><Checkbox checked={formData.feeType === 'cash'} /> <span className="font-bold text-bidv-blue">Phí thu từ tiền mặt</span><span className="italic ml-1">/Fee in cash</span></div>
@@ -108,12 +111,12 @@ export default function UNCPreview({ formData }: Props) {
               </div>
             </div>
 
-            {/* Người hưởng */}
+            {/* 3. Người hưởng */}
             <div className="p-3 border-b border-ink/40">
               <FieldRow label="Người hưởng" sublabel="Beneficiary" value={formData.beneficiaryName} />
               <div className="grid grid-cols-2 gap-4">
-                 <FieldRow label="Số CCCD/HC" sublabel="ID No" value={formData.beneficiaryCCCD} mono />
-                 <FieldRow label="Ngày cấp" sublabel="Date" value={formData.cccdDate} />
+                <FieldRow label="Số CCCD/HC" sublabel="ID No" value={formData.beneficiaryCCCD} mono />
+                <FieldRow label="Ngày cấp" sublabel="Date" value={formData.cccdDate} />
               </div>
               <FieldRow label="Nơi cấp" sublabel="Place" value={formData.cccdPlace} />
               <FieldRow label="Địa chỉ" sublabel="Address" value={formData.beneficiaryAddress} />
@@ -121,7 +124,7 @@ export default function UNCPreview({ formData }: Props) {
               <FieldRow label="Tại Ngân hàng" sublabel="At Bank" value={formData.beneficiaryBank} />
             </div>
 
-            {/* Nội dung (Sửa xuống dòng) */}
+            {/* 4. Nội dung */}
             <div className="p-3">
               <div className="block w-full" style={{ lineHeight: '1.8' }}>
                 <span className="font-bold text-bidv-blue mr-1">Nội dung</span>
@@ -131,34 +134,33 @@ export default function UNCPreview({ formData }: Props) {
             </div>
           </div>
 
-          {/* Cam kết */}
+          {/* Cam kết & Chữ ký */}
           <p className="text-center text-[8pt] my-4 italic">
             <span className="font-bold text-bidv-blue not-italic">Khách hàng xác nhận các thông tin trên là chính xác</span> / Please sign to confirm the above information is accurate
           </p>
 
-          {/* Chữ ký */}
           <div className="grid grid-cols-4 gap-2 text-center mt-6">
             <div>
               <p className="font-bold text-bidv-blue text-[9pt] uppercase">Kế toán trưởng</p>
-              <p className="text-[7pt] italic text-ink">Chief Accountant</p>
+              <p className="text-[7pt] italic text-ink leading-tight">Chief Accountant</p>
               <p className="text-[6.5pt] text-ink/50 mt-1">(Ký và ghi rõ họ tên)</p>
             </div>
             <div>
               <p className="font-bold text-bidv-blue text-[9pt] uppercase">Chủ tài khoản</p>
-              <p className="text-[7pt] italic text-ink">Accountholder</p>
+              <p className="text-[7pt] italic text-ink leading-tight">Accountholder</p>
               <p className="text-[6.5pt] text-ink/50 mt-1">(Ký và ghi rõ họ tên)</p>
             </div>
             <div>
               <p className="font-bold text-bidv-blue text-[9pt] uppercase">Giao dịch viên</p>
-              <p className="text-[7pt] italic text-ink">Teller</p>
+              <p className="text-[7pt] italic text-ink leading-tight">Teller</p>
             </div>
             <div>
               <p className="font-bold text-bidv-blue text-[9pt] uppercase">Kiểm soát viên</p>
-              <p className="text-[7pt] italic text-ink">Supervisor</p>
+              <p className="text-[7pt] italic text-ink leading-tight">Supervisor</p>
             </div>
           </div>
 
-          {/* Footer chân trang */}
+          {/* Footer */}
           <div className="absolute bottom-[15mm] left-0 right-0 text-center text-bidv-blue font-bold opacity-80">
             <p className="text-[9pt]">Cảm ơn quý khách hàng đã sử dụng dịch vụ của BIDV</p>
             <p className="text-[7.5pt] italic font-medium">Thank you for using BIDV's services</p>
