@@ -100,7 +100,7 @@ export default function UNCPreview({ formData }: Props) {
     <span className="italic text-ink text-[7.5pt]">/Request for changing into:</span>
     <DottedValue value={formData.exchangeTo} />
   </div>
-  <div className="flex gap-1 items-baseline">
+  <div className="flex gap-1.5 items-baseline">
     <span className="font-bold whitespace-nowrap text-bidv-blue">Tỷ giá</span>
     <span className="italic text-ink text-[7.5pt]">/Ex rate:</span>
     <DottedValue value={formData.exchangeRate} />
