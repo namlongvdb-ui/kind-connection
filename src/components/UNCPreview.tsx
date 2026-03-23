@@ -39,13 +39,13 @@ export default function UNCPreview({ formData }: Props) {
           lineHeight: '1.6',
         }}
       >
-        {/* Watermark */}
+        {/* Watermark - Đảm bảo phủ kín tờ giấy */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
           <img src={bidvWatermark} alt="" className="w-full h-full object-cover opacity-100" />
         </div>
 
-        {/* Content Area */}
-        <div className="relative" style={{ zIndex: 1, padding: '10mm 15mm' }}>
+        {/* Content Area - Bổ sung h-full để absolute footer hoạt động chính xác */}
+        <div className="relative h-full" style={{ zIndex: 1, padding: '10mm 15mm' }}>
           
           {/* Header */}
           <div className="text-center mb-4 pt-6">
@@ -56,7 +56,7 @@ export default function UNCPreview({ formData }: Props) {
           <div className="text-right mb-2">
             <span className="font-bold text-bidv-blue">Ngày</span>
             <span className="italic text-ink">/Date: </span>
-            <span className="font-bold border-b border-dotted border-black px-2">{formData.date || '.../.../202...'}</span>
+            <span className="font-bold border-b border-dotted border-black px-2">{formData.date || '    /    /202  '}</span>
           </div>
 
           {/* Bordered Box */}
@@ -95,10 +95,12 @@ export default function UNCPreview({ formData }: Props) {
                 <div className="inline-block">
                   <span className="font-bold text-bidv-blue">Đề nghị quy đổi ra</span>
                   <span className="italic text-ink text-[8pt]">/Request for changing into:</span>
+                  <span className="ml-2 font-bold underline decoration-dotted">{formData.exchangeTo || '\u00A0'}</span>
                 </div>
                 <div className="inline-block">
                   <span className="font-bold text-bidv-blue">Tỷ giá</span>
                   <span className="italic text-ink text-[8pt]">/Ex rate:</span>
+                  <span className="ml-2 font-bold underline decoration-dotted">{formData.exchangeRate || '\u00A0'}</span>
                 </div>
               </div>
 
@@ -158,10 +160,19 @@ export default function UNCPreview({ formData }: Props) {
             </div>
           </div>
 
-          {/* Thank you message - pushed down 6cm from signatures */}
-          <div className="text-center" style={{ fontSize: '7.5pt', marginTop: '60mm' }}>
-            <p className="font-bold text-bidv-blue">Cảm ơn quý khách hàng đã sử dụng dịch vụ của BIDV</p>
-            <p className="italic text-ink">Thank you for using BIDV's services</p>
+          {/* CỐ ĐỊNH CHÂN TRANG: Đặt bên trong thẻ Content Area đã có h-full */}
+          <div 
+            className="absolute left-0 right-0 text-center" 
+            style={{ bottom: '15mm' }}
+          >
+            <div className="inline-block border-t border-bidv-blue/20 pt-2 w-[80%]">
+              <p className="font-bold text-bidv-blue" style={{ fontSize: '9pt' }}>
+                Cảm ơn quý khách hàng đã sử dụng dịch vụ của BIDV
+              </p>
+              <p className="italic text-ink" style={{ fontSize: '7.5pt' }}>
+                Thank you for using BIDV's services
+              </p>
+            </div>
           </div>
         </div>
       </div>
