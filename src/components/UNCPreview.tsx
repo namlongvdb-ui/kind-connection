@@ -149,7 +149,7 @@ export default function UNCPreview({ formData }: Props) {
             {/* Remarks */}
             <div className="border-l border-r border-b border-ink/40" style={{ padding: '1mm 3mm' }}>
               <FieldRow label="Nội dung" sublabel="Remarks" value={formData.remarks} />
-              <div className="border-b border-dotted border-ink/30" style={{ minHeight: '1.6em', lineHeight: '1.8' }}>{'\u00A0'}</div>
+              
             </div>
           </div>
 
