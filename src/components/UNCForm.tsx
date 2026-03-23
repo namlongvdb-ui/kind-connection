@@ -111,7 +111,6 @@ export default function UNCForm({ formData, updateField, beneficiaries, onSaveBe
 
         {/* SỐ TIỀN & PHÍ - Đã sửa logic Toggle */}
         <div className="space-y-3 p-3 bg-muted/30 rounded-lg">
-          <p className="text-xs font-bold text-primary uppercase tracking-wider border-b border-primary/20 pb-1">Số tiền & Quy đổi</p>
           <InputField label="Số tiền bằng số" value={displayAmount} onChange={handleAmountChange} placeholder="0" mono />
           <div>
             <label className="block text-xs font-medium text-muted-foreground mb-1">Số tiền bằng chữ</label>
