@@ -33,6 +33,8 @@ export function useUNCForm() {
     payerBank: 'BIDV - ',
     amount: '',
     amountWords: '',
+    exchangeTo: '',
+    exchangeRate: '',
     feeType: 'deduct',
     beneficiaryName: '',
     beneficiaryCCCD: '',

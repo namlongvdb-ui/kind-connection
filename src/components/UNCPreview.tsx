@@ -188,6 +188,7 @@ export default function UNCPreview({ formData }: Props) {
           </div>
 
           {/* Thank you message */}
+          <div style={{ height: '1.8em' }}></div>
           <div className="text-center" style={{ fontSize: '7.5pt', marginTop: '60mm' }}>
             <p className="font-bold text-bidv-blue">Cảm ơn quý khách hàng đã sử dụng dịch vụ của BIDV</p>
             <p className="italic text-ink">Thank you for using BIDV's services</p>

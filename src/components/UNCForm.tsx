@@ -124,6 +124,10 @@ export default function UNCForm({ formData, updateField, beneficiaries, onSaveBe
               ))}
             </div>
           </div>
+          <div className="grid grid-cols-2 gap-3">
+            <InputField label="Đề nghị quy đổi ra" sublabel="Changing into" value={formData.exchangeTo} onChange={v => updateField('exchangeTo', v)} />
+            <InputField label="Tỷ giá" sublabel="Ex rate" value={formData.exchangeRate} onChange={v => updateField('exchangeRate', v)} />
+          </div>
         </div>
 
         {/* Beneficiary */}
