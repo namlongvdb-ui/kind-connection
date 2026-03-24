@@ -287,10 +287,10 @@ export default function UNCForm({
                   className="flex items-center justify-between p-3 bg-background border border-border rounded-lg hover:border-bidv-blue cursor-pointer transition-all group"
                 >
                   <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-bold truncate uppercase">{record.data.beneficiaryName}</p>
+                    <p className="text-[11px] font-bold truncate uppercase">{record.formData.beneficiaryName}</p>
                     <div className="flex gap-3 text-[10px] text-muted-foreground mt-0.5">
-                      <span>{record.timestamp}</span>
-                      <span className="font-mono text-bidv-blue">{formatCurrency(parseInt(record.data.amount))}đ</span>
+                      <span>{record.savedAt}</span>
+                      <span className="font-mono text-bidv-blue">{formatCurrency(parseInt(record.formData.amount))}đ</span>
                     </div>
                   </div>
                   <button 
