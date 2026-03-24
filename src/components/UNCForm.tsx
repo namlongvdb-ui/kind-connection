@@ -42,9 +42,8 @@ export default function UNCForm({
   const [showPicker, setShowPicker] = useState(false);
   const [exporting, setExporting] = useState(false);
 
-  // Khởi động chương trình với các trường trống không
   useEffect(() => {
-    // Để trống hoàn toàn theo yêu cầu
+    // Để trống hoàn toàn theo yêu cầu ban đầu
   }, []);
 
   const handleSetDefault = () => {
@@ -179,7 +178,6 @@ export default function UNCForm({
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-6 custom-scrollbar">
         <InputField label="Ngày" sublabel="Date" value={formData.date} onChange={v => updateField('date', v)} placeholder="DD/MM/YYYY" />
 
-        {/* BÊN TRẢ TIỀN */}
         <div className="space-y-3 p-4 bg-muted/30 rounded-xl border border-border/40">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Bên trả tiền (Payer)</p>
@@ -196,7 +194,6 @@ export default function UNCForm({
           <InputField label="Tại Ngân hàng" value={formData.payerBank} onChange={v => updateField('payerBank', v)} />
         </div>
 
-        {/* SỐ TIỀN & PHÍ */}
         <div className="space-y-4 p-4 bg-muted/30 rounded-xl border border-border/40">
           <InputField label="Số tiền bằng số" value={displayAmount} onChange={handleAmountChange} placeholder="Nhập số tiền..." mono />
           <div>
@@ -237,7 +234,6 @@ export default function UNCForm({
           </div>
         </div>
 
-        {/* NGƯỜI HƯỞNG */}
         <div className="space-y-3 p-4 bg-muted/30 rounded-xl border border-border/40">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Người hưởng (Beneficiary)</p>
@@ -273,29 +269,28 @@ export default function UNCForm({
 
         <InputField label="Nội dung thanh toán" value={formData.remarks} onChange={v => updateField('remarks', v)} placeholder="Nội dung chuyển tiền..." />
 
-        {/* --- PHẦN LỊCH SỬ UNC (ĐÃ SỬA LỖI) --- */}
+        {/* --- PHẦN LỊCH SỬ UNC (CỰC KỲ AN TOÀN) --- */}
         <div className="space-y-3 pt-4 border-t border-border">
           <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Lịch sử giao dịch (History)</p>
           <div className="space-y-2">
-            {!history || history.length === 0 ? (
+            {(!history || history.filter(r => r && r.data).length === 0) ? (
               <p className="text-[10px] text-center text-muted-foreground/60 py-4 italic">Chưa có giao dịch nào được thực hiện.</p>
             ) : (
-              history.map((record) => {
-                // Kiểm tra an toàn: Nếu record không hợp lệ thì bỏ qua không render
-                if (!record || !record.data) return null;
-                
-                return (
+              history
+                .filter(record => record && record.data) // Tầng 1: Lọc bỏ record rác
+                .map((record) => (
                   <div 
                     key={record.id}
                     onClick={() => onLoadTransaction(record)}
                     className="flex items-center justify-between p-3 bg-background border border-border rounded-lg hover:border-bidv-blue cursor-pointer transition-all group"
                   >
                     <div className="flex-1 min-w-0">
+                      {/* Tầng 2 & 3: Kiểm tra an toàn từng thuộc tính */}
                       <p className="text-[11px] font-bold truncate uppercase">
-                        {record.data?.beneficiaryName || "Không xác định"}
+                        {record.data?.beneficiaryName || "N/A"}
                       </p>
                       <div className="flex gap-3 text-[10px] text-muted-foreground mt-0.5">
-                        <span>{record.timestamp}</span>
+                        <span>{record.timestamp || "Không rõ ngày"}</span>
                         <span className="font-mono text-bidv-blue">
                           {record.data?.amount ? formatCurrency(parseInt(record.data.amount)) : '0'}đ
                         </span>
@@ -308,14 +303,12 @@ export default function UNCForm({
                       🗑️
                     </button>
                   </div>
-                );
-              })
+                ))
             )}
           </div>
         </div>
       </div>
 
-      {/* FOOTER NÚT BẤM */}
       <div className="px-5 py-4 border-t border-border bg-card shadow-[0_-4px_10px_rgba(0,0,0,0.03)] shrink-0">
         <div className="flex gap-3">
           <button 
