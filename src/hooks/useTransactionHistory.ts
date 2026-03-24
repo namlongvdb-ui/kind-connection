@@ -81,6 +81,18 @@ export function useTransactionHistory() {
   }, [history]);
 
   const saveTransaction = (formData: UNCFormData) => {
+    // Không lưu trùng nếu UNC giống hệt bản ghi gần nhất
+    if (history.length > 0) {
+      const last = history[0].formData;
+      const same = last.beneficiaryName === formData.beneficiaryName
+        && last.beneficiaryAccount === formData.beneficiaryAccount
+        && last.amount === formData.amount
+        && last.remarks === formData.remarks
+        && last.date === formData.date
+        && last.payerAccount === formData.payerAccount;
+      if (same) return;
+    }
+
     const record: TransactionRecord = {
       id: crypto.randomUUID(),
       date: formData.date,
