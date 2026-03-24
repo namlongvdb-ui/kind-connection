@@ -58,6 +58,11 @@ export default function UNCForm({
     updateField('beneficiaryName', 'Danh sách cá nhân kèm theo');
     updateField('beneficiaryAccount', '280701009');
     updateField('beneficiaryBank', 'BIDV - Chi nhánh Cao Bằng');
+    updateField('beneficiaryCCCD', '');
+    updateField('cccdDate', '');
+    updateField('cccdPlace', '');
+    updateField('beneficiaryAddress', '');
+    updateField('remarks', '');
   };
 
   const handleExportPDF = async () => {
