@@ -113,9 +113,15 @@ export default function UNCForm({
       {showPicker && (
         <div className="absolute inset-0 z-50 bg-background/98 backdrop-blur-md p-5 flex flex-col shadow-2xl animate-in fade-in zoom-in duration-200">
           <div className="flex justify-between items-center mb-6 border-b pb-3">
-            <h3 className="font-bold text-bidv-blue uppercase text-sm tracking-wider">Danh bạ người hưởng</h3>
-            <button onClick={() => setShowPicker(false)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted text-muted-foreground transition-colors">✕</button>
-          </div>
+  <h3 className="font-bold text-bidv-blue uppercase text-sm tracking-wider">Danh bạ người hưởng</h3>
+    {/* Thay nút ✕ bằng nút Close có thiết kế rõ ràng */}
+  <button 
+    onClick={() => setShowPicker(false)} 
+    className="px-3 py-1.5 bg-muted hover:bg-red-100 hover:text-red-600 text-muted-foreground rounded-lg text-xs font-bold transition-all border border-border"
+  >
+    CLOSE
+  </button>
+</div>
           <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
             {beneficiaries.length === 0 ? (
               <div className="text-center py-20">
