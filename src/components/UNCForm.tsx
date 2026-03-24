@@ -40,7 +40,7 @@ export default function UNCForm({
   history, onSaveTransaction, onLoadTransaction, onRemoveTransaction 
 }: Props) {
   const [showPicker, setShowPicker] = useState(false);
-  const [showHistory, setShowHistory] = useState(false); // State quản lý ẩn hiện lịch sử
+  const [showHistory, setShowHistory] = useState(false); 
   const [exporting, setExporting] = useState(false);
 
   const handleExportPDF = async () => {
@@ -149,50 +149,48 @@ export default function UNCForm({
       )}
 
       {/* MODAL: LỊCH SỬ GIAO DỊCH (ĐÃ SỬA LỖI HIỂN THỊ DỮ LIỆU) */}
-      {showHistory && (
-        <div className="absolute inset-0 z-50 bg-background/98 backdrop-blur-md p-5 flex flex-col shadow-2xl animate-in fade-in slide-in-from-bottom-5 duration-200">
-          <div className="flex justify-between items-center mb-6 border-b pb-3">
-            <h3 className="font-bold text-bidv-blue uppercase text-sm tracking-wider">Lịch sử lập UNC</h3>
-            <button onClick={() => setShowHistory(false)} className="px-3 py-1 bg-muted hover:bg-red-50 hover:text-red-600 text-muted-foreground rounded-md text-[10px] font-bold transition-all border border-border">
-              ĐÓNG
-            </button>
-          </div>
-          <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
-            {(!history || history.length === 0) ? (
-              <div className="text-center py-20 text-xs text-muted-foreground">Chưa có lịch sử giao dịch.</div>
-            ) : (
-              [...history].reverse().map((record) => {
-                // Logic kiểm tra dữ liệu: Ưu tiên lấy từ record.data, nếu không có thì lấy trực tiếp từ record
-                const bName = record.data?.beneficiaryName || (record as any).beneficiaryName || "N/A";
-                const amt = record.data?.amount || (record as any).amount || "0";
-                
+      {showHistory && (
+        <div className="absolute inset-0 z-50 bg-background/98 backdrop-blur-md p-5 flex flex-col shadow-2xl animate-in fade-in slide-in-from-bottom-5 duration-200">
+          <div className="flex justify-between items-center mb-6 border-b pb-3">
+            <h3 className="font-bold text-bidv-blue uppercase text-sm tracking-wider">Lịch sử lập UNC</h3>
+            <button onClick={() => setShowHistory(false)} className="px-3 py-1 bg-muted hover:bg-red-50 hover:text-red-600 text-muted-foreground rounded-md text-[10px] font-bold transition-all border border-border">
+              ĐÓNG
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
+            {(!history || history.length === 0) ? (
+              <div className="text-center py-20 text-xs text-muted-foreground">Chưa có lịch sử giao dịch.</div>
+            ) : (
+              [...history].reverse().map((record) => {
+                // KIỂM TRA DỮ LIỆU THÔNG MINH:
+                // Thử lấy từ record.data (nếu lồng), hoặc trực tiếp từ record (nếu phẳng)
+                const targetData = record.data || record;
+                const bName = targetData.beneficiaryName || (record as any).beneficiaryName || "N/A";
+                const amt = targetData.amount || (record as any).amount || "0";
+
                 return (
-                <div 
-                  key={record.id} 
-                  onClick={() => selectHistoryRecord(record)}
-                  className="p-4 border border-border/60 rounded-xl hover:border-bidv-blue hover:bg-bidv-blue/5 cursor-pointer transition-all group relative shadow-sm"
-                >
-                  <p className="font-bold text-xs uppercase text-foreground truncate w-[85%]">
-                    {bName}
-                  </p>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="text-[10px] text-muted-foreground">{record.timestamp}</span>
-                    <span className="text-xs font-mono font-bold text-bidv-blue">
-                      {formatCurrency(parseInt(amt))}đ
-                    </span>
-                  </div>
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); onRemoveTransaction(record.id); }} 
-                    className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 text-red-500 text-xs transition-opacity"
+                  <div 
+                    key={record.id} 
+                    onClick={() => selectHistoryRecord(record)}
+                    className="p-4 border border-border/60 rounded-xl hover:border-bidv-blue hover:bg-bidv-blue/5 cursor-pointer transition-all group relative shadow-sm"
                   >
-                    🗑️
-                  </button>
-                </div>
-              )})
-            )}
-          </div>
-        </div>
-      )}
+                    <p className="font-bold text-xs uppercase text-foreground truncate w-[85%]">
+                      {bName}
+                    </p>
+                    <div className="flex justify-between items-center mt-2">
+                      <span className="text-[10px] text-muted-foreground">{record.timestamp}</span>
+                      <span className="text-xs font-mono font-bold text-bidv-blue">
+                        {formatCurrency(parseInt(amt))}đ
+                      </span>
+                    </div>
+                    <button onClick={(e) => { e.stopPropagation(); onRemoveTransaction(record.id); }} className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 text-red-500 text-xs transition-opacity">🗑️</button>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </div>
+      )}
 
       {/* HEADER */}
       <div className="bg-primary px-5 py-3 text-primary-foreground text-center relative overflow-hidden shrink-0">
