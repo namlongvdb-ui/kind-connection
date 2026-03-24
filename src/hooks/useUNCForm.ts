@@ -10,7 +10,7 @@ export interface UNCFormData {
   amountWords: string;
   exchangeTo: string;
   exchangeRate: string;
-  feeType: 'deduct' | 'cash' | 'account';
+  feeType: 'deduct' | 'cash' | 'account' | '';
   beneficiaryName: string;
   beneficiaryCCCD: string;
   cccdDate: string;

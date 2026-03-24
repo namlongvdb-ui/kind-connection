@@ -162,11 +162,8 @@ export default function UNCForm({
               <div className="text-center py-20 text-xs text-muted-foreground">Chưa có lịch sử giao dịch.</div>
             ) : (
               [...history].reverse().map((record) => {
-                // KIỂM TRA DỮ LIỆU THÔNG MINH:
-                // Thử lấy từ record.data (nếu lồng), hoặc trực tiếp từ record (nếu phẳng)
-                const targetData = record.data || record;
-                const bName = targetData.beneficiaryName || (record as any).beneficiaryName || "N/A";
-                const amt = targetData.amount || (record as any).amount || "0";
+                const bName = record.formData.beneficiaryName || 'N/A';
+                const amt = record.formData.amount || '0';
 
                 return (
                   <div 
@@ -178,7 +175,7 @@ export default function UNCForm({
                       {bName}
                     </p>
                     <div className="flex justify-between items-center mt-2">
-                      <span className="text-[10px] text-muted-foreground">{record.timestamp}</span>
+                      <span className="text-[10px] text-muted-foreground">{record.savedAt}</span>
                       <span className="text-xs font-mono font-bold text-bidv-blue">
                         {formatCurrency(parseInt(amt))}đ
                       </span>

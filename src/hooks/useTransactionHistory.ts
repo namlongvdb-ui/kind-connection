@@ -10,10 +10,64 @@ export interface TransactionRecord {
 
 const STORAGE_KEY = 'unc-history';
 
+const EMPTY_FORM_DATA: UNCFormData = {
+  date: '',
+  payerName: '',
+  payerAddress: '',
+  payerAccount: '',
+  payerBank: '',
+  amount: '',
+  amountWords: '',
+  exchangeTo: '',
+  exchangeRate: '',
+  feeType: '',
+  beneficiaryName: '',
+  beneficiaryCCCD: '',
+  cccdDate: '',
+  cccdPlace: '',
+  beneficiaryAddress: '',
+  beneficiaryAccount: '',
+  beneficiaryBank: '',
+  remarks: '',
+};
+
+type LegacyTransactionRecord = Partial<TransactionRecord> & {
+  timestamp?: string;
+  data?: Partial<UNCFormData>;
+} & Partial<UNCFormData>;
+
+const isFeeType = (value: unknown): value is UNCFormData['feeType'] =>
+  value === '' || value === 'deduct' || value === 'cash' || value === 'account';
+
+function normalizeRecord(record: LegacyTransactionRecord): TransactionRecord {
+  const sourceData = (record.formData ?? record.data ?? record) as Partial<UNCFormData>;
+  const feeType = isFeeType(sourceData.feeType) ? sourceData.feeType : '';
+
+  const formData: UNCFormData = {
+    ...EMPTY_FORM_DATA,
+    ...sourceData,
+    feeType,
+  };
+
+  return {
+    id: record.id || crypto.randomUUID(),
+    date: record.date || formData.date,
+    savedAt: record.savedAt || record.timestamp || '',
+    formData,
+  };
+}
+
 function loadHistory(): TransactionRecord[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed
+      .filter((item): item is LegacyTransactionRecord => !!item && typeof item === 'object')
+      .map(normalizeRecord);
   } catch {
     return [];
   }
