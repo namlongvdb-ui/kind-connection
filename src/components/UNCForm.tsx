@@ -67,7 +67,7 @@ export default function UNCForm({
     setExporting(true);
     try {
       await exportUNCToPDF();
-      onSaveTransaction(); // Lưu vào lịch sử sau khi xuất PDF thành công
+      onSaveTransaction();
     } catch (e) {
       console.error('PDF export failed', e);
     } finally {
@@ -273,34 +273,43 @@ export default function UNCForm({
 
         <InputField label="Nội dung thanh toán" value={formData.remarks} onChange={v => updateField('remarks', v)} placeholder="Nội dung chuyển tiền..." />
 
-        {/* --- PHẦN LỊCH SỬ UNC --- */}
+        {/* --- PHẦN LỊCH SỬ UNC (ĐÃ SỬA LỖI) --- */}
         <div className="space-y-3 pt-4 border-t border-border">
           <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Lịch sử giao dịch (History)</p>
           <div className="space-y-2">
-            {history.length === 0 ? (
+            {!history || history.length === 0 ? (
               <p className="text-[10px] text-center text-muted-foreground/60 py-4 italic">Chưa có giao dịch nào được thực hiện.</p>
             ) : (
-              history.map((record) => (
-                <div 
-                  key={record.id}
-                  onClick={() => onLoadTransaction(record)}
-                  className="flex items-center justify-between p-3 bg-background border border-border rounded-lg hover:border-bidv-blue cursor-pointer transition-all group"
-                >
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-bold truncate uppercase">{record.data.beneficiaryName}</p>
-                    <div className="flex gap-3 text-[10px] text-muted-foreground mt-0.5">
-                      <span>{record.timestamp}</span>
-                      <span className="font-mono text-bidv-blue">{formatCurrency(parseInt(record.data.amount))}đ</span>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); onRemoveTransaction(record.id); }}
-                    className="ml-2 text-red-400 opacity-0 group-hover:opacity-100 hover:text-red-600 transition-all"
+              history.map((record) => {
+                // Kiểm tra an toàn: Nếu record không hợp lệ thì bỏ qua không render
+                if (!record || !record.data) return null;
+                
+                return (
+                  <div 
+                    key={record.id}
+                    onClick={() => onLoadTransaction(record)}
+                    className="flex items-center justify-between p-3 bg-background border border-border rounded-lg hover:border-bidv-blue cursor-pointer transition-all group"
                   >
-                    🗑️
-                  </button>
-                </div>
-              ))
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[11px] font-bold truncate uppercase">
+                        {record.data?.beneficiaryName || "Không xác định"}
+                      </p>
+                      <div className="flex gap-3 text-[10px] text-muted-foreground mt-0.5">
+                        <span>{record.timestamp}</span>
+                        <span className="font-mono text-bidv-blue">
+                          {record.data?.amount ? formatCurrency(parseInt(record.data.amount)) : '0'}đ
+                        </span>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={(e) => { e.stopPropagation(); onRemoveTransaction(record.id); }}
+                      className="ml-2 text-red-400 opacity-0 group-hover:opacity-100 hover:text-red-600 transition-all"
+                    >
+                      🗑️
+                    </button>
+                  </div>
+                );
+              })
             )}
           </div>
         </div>
