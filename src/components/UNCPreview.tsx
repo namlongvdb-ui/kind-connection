@@ -6,36 +6,17 @@ interface Props {
   formData: UNCFormData;
 }
 
-// Cập nhật DottedValue để font mono to hơn
 const DottedValue = ({ value, mono }: { value: string; mono?: boolean }) => (
-  <span 
-    className={`flex-1 leading-tight ${mono ? 'font-mono tracking-[0.12em]' : ''}`} 
-    style={{ 
-      paddingBottom: '1px',
-      fontSize: mono ? '11pt' : '9.5pt',
-      fontWeight: mono ? 600 : 400
-    }}
-  >
+  <span className={`flex-1 leading-tight ${mono ? 'font-mono tracking-[0.12em]' : ''}`} style={{ paddingBottom: '1px' }}>
     {value || '\u00A0'}
   </span>
 );
 
-// Cập nhật FieldRow để font mono to hơn
 const FieldRow = ({ label, sublabel, value, mono }: { label: string; sublabel: string; value: string; mono?: boolean }) => (
   <div style={{ lineHeight: '1.8' }}>
     <span className="font-bold whitespace-nowrap text-bidv-blue" style={{ fontSize: '9.5pt' }}>{label}</span>
     <span className="italic text-ink whitespace-nowrap" style={{ fontSize: '8pt' }}>/{sublabel}: </span>
-    <span 
-      className={`${mono ? 'font-mono tracking-[0.12em]' : ''}`} 
-      style={{ 
-        wordBreak: 'break-word', 
-        overflowWrap: 'break-word',
-        fontSize: mono ? '11pt' : '9.5pt', // Phóng to font mono lên 11pt
-        fontWeight: mono ? 600 : 400      // Làm đậm số tài khoản
-      }}
-    >
-      {value || '\u00A0'}
-    </span>
+    <span className={`${mono ? 'font-mono tracking-[0.12em]' : ''}`} style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>{value || '\u00A0'}</span>
   </div>
 );
 
@@ -55,24 +36,26 @@ export default function UNCPreview({ formData }: Props) {
         className="relative bg-paper shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] origin-top"
         style={{
           width: '210mm',
-          height: '297mm',
+          height: '297mm', // QUAN TRỌNG: Ép cứng chiều cao chuẩn A4
           minHeight: '297mm',
           fontFamily: '"Be Vietnam Pro", sans-serif',
           fontSize: '9.5pt',
           color: 'hsl(0 0% 12%)',
           lineHeight: '1.7',
-          overflow: 'hidden',
+          overflow: 'hidden', // Đảm bảo không có gì tràn ra ngoài khổ giấy
         }}
       >
+        {/* Giữ nguyên Watermark theo code bạn gửi */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
           <img src={bidvWatermark} alt="" className="w-full h-full object-cover" style={{ opacity: 1 }} />
         </div>
 
+        {/* KHỐI NỘI DUNG CHÍNH (z-index: 1) */}
         <div className="relative" style={{ zIndex: 1, padding: '8mm 12mm 10mm 12mm' }}>
           <div className="flex items-start justify-center mb-0" style={{ paddingTop: '8mm' }}>
             <div className="text-center">
               <h1 className="font-bold text-bidv-blue leading-tight tracking-wide" style={{ fontSize: '18pt', fontFamily: 'Roboto, sans-serif', fontWeight: 700 }}>ỦY NHIỆM CHI</h1>
-              <p className="text-bidv-blue" style={{ fontSize: '13pt', fontFamily: 'Roboto, sans-serif', fontWeight: 400, lineHeight: '1.1', marginTop: '0mm' }}>PAYMENT ORDER</p>
+              <p className="text-bidv-blue" style={{ fontSize: '13pt', fontFamily: 'Roboto, sans-serif', fontWeight: 700, lineHeight: '1.1', marginTop: '0mm' }}>PAYMENT ORDER</p>
             </div>
           </div>
 
@@ -111,20 +94,13 @@ export default function UNCPreview({ formData }: Props) {
               </div>
 
               <div className="flex gap-1.5 items-baseline" style={{ lineHeight: '1.8', fontSize: '9pt' }}>
-  <span className="font-bold whitespace-nowrap text-bidv-blue">Đề nghị quy đổi ra</span>
-  <span className="italic text-ink" style={{ fontSize: '7.5pt' }}>/Request for changing into:</span>
-  
-  {/* Đã nối dữ liệu exchangeTo */}
-  <span style={{ width: '2cm', minWidth: '2cm' }}>
-    <DottedValue value={formData.exchangeTo} />
-  </span>
-
-  <span className="font-bold whitespace-nowrap ml-1 text-bidv-blue">Tỷ giá</span>
-  <span className="italic text-ink" style={{ fontSize: '7.5pt' }}>/Ex rate:</span>
-  
-  {/* Đã nối dữ liệu exchangeRate */}
-  <DottedValue value={formData.exchangeRate} />
-</div>
+                <span className="font-bold whitespace-nowrap text-bidv-blue">Đề nghị quy đổi ra</span>
+                <span className="italic text-ink" style={{ fontSize: '7.5pt' }}>/Request for changing into:</span>
+                <span style={{ width: '2cm', minWidth: '2cm' }}><DottedValue value="" /></span>
+                <span className="font-bold whitespace-nowrap ml-1 text-bidv-blue">Tỷ giá</span>
+                <span className="italic text-ink" style={{ fontSize: '7.5pt' }}>/Ex rate:</span>
+                <DottedValue value="" />
+              </div>
               <div style={{ lineHeight: '1.8' }}>
                 <div className="flex gap-6 items-center">
                   <span>
@@ -202,6 +178,7 @@ export default function UNCPreview({ formData }: Props) {
           </div>
         </div>
 
+        {/* --- CHÂN TRANG ĐÃ DI CHUYỂN RA NGOÀI KHỐI NỘI DUNG ĐỂ CỐ ĐỊNH --- */}
         <div 
           className="absolute left-0 right-0 text-center" 
           style={{ bottom: '15mm', zIndex: 2 }}
