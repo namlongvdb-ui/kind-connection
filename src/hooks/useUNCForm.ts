@@ -35,7 +35,7 @@ export function useUNCForm() {
     amountWords: '',
     exchangeTo: '',
     exchangeRate: '',
-    feeType: 'deduct',
+    feeType: '',
     beneficiaryName: '',
     beneficiaryCCCD: '',
     cccdDate: '',
