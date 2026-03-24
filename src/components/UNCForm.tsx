@@ -73,6 +73,17 @@ export default function UNCForm({
     updateField('remarks', '');
   };
 
+  // Hàm xử lý khi bấm nút New
+  const handleNewForm = () => {
+    const fields: (keyof UNCFormData)[] = [
+      'payerName', 'payerAddress', 'payerAccount', 'payerBank',
+      'beneficiaryName', 'beneficiaryAccount', 'beneficiaryBank', 
+      'beneficiaryCCCD', 'cccdDate', 'cccdPlace', 'beneficiaryAddress',
+      'amount', 'amountWords', 'remarks', 'feeType'
+    ];
+    fields.forEach(field => updateField(field, ''));
+  };
+
   const handleAmountChange = (val: string) => {
     const cleaned = val.replace(/[^\d]/g, '');
     updateField('amount', cleaned);
@@ -148,7 +159,7 @@ export default function UNCForm({
         </div>
       )}
 
-      {/* MODAL: LỊCH SỬ GIAO DỊCH (ĐÃ SỬA LỖI HIỂN THỊ DỮ LIỆU) */}
+      {/* MODAL: LỊCH SỬ GIAO DỊCH (GIỮ NGUYÊN CODE CỦA BẠN) */}
       {showHistory && (
         <div className="absolute inset-0 z-50 bg-background/98 backdrop-blur-md p-5 flex flex-col shadow-2xl animate-in fade-in slide-in-from-bottom-5 duration-200">
           <div className="flex justify-between items-center mb-6 border-b pb-3">
@@ -162,8 +173,9 @@ export default function UNCForm({
               <div className="text-center py-20 text-xs text-muted-foreground">Chưa có lịch sử giao dịch.</div>
             ) : (
               [...history].reverse().map((record) => {
-                const bName = record.formData.beneficiaryName || 'N/A';
-                const amt = record.formData.amount || '0';
+                const targetData = record.data || record;
+                const bName = targetData.beneficiaryName || (record as any).beneficiaryName || "N/A";
+                const amt = targetData.amount || (record as any).amount || "0";
 
                 return (
                   <div 
@@ -175,7 +187,7 @@ export default function UNCForm({
                       {bName}
                     </p>
                     <div className="flex justify-between items-center mt-2">
-                      <span className="text-[10px] text-muted-foreground">{record.savedAt}</span>
+                      <span className="text-[10px] text-muted-foreground">{record.timestamp}</span>
                       <span className="text-xs font-mono font-bold text-bidv-blue">
                         {formatCurrency(parseInt(amt))}đ
                       </span>
@@ -209,9 +221,14 @@ export default function UNCForm({
         <div className="space-y-3 p-4 bg-muted/30 rounded-xl border border-border/40">
           <div className="flex items-center justify-between mb-2">
             <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Bên trả tiền</p>
-            <button onClick={handleSetDefault} className="text-[10px] px-3 py-1 bg-amber-500 text-white rounded-full font-bold hover:bg-amber-600 transition-all shadow-sm">
-              MẶC ĐỊNH
-            </button>
+            <div className="flex gap-2">
+              <button onClick={handleNewForm} className="text-[10px] px-3 py-1 bg-red-500 text-white rounded-full font-bold hover:bg-red-600 transition-all shadow-sm">
+                NEW
+              </button>
+              <button onClick={handleSetDefault} className="text-[10px] px-3 py-1 bg-amber-500 text-white rounded-full font-bold hover:bg-amber-600 transition-all shadow-sm">
+                MẶC ĐỊNH
+              </button>
+            </div>
           </div>
           <InputField label="Tên tài khoản trích nợ" value={formData.payerName} onChange={v => updateField('payerName', v)} />
           <InputField label="Địa chỉ" value={formData.payerAddress} onChange={v => updateField('payerAddress', v)} />
@@ -234,47 +251,4 @@ export default function UNCForm({
               {[{ id: 'deduct', label: 'Phí trong số tiền chuyển' }, { id: 'cash', label: 'Phí thu từ tiền mặt' }, { id: 'account', label: 'Phí thu từ tài khoản' }].map(ft => (
                 <div key={ft.id} onClick={() => handleFeeToggle(ft.id)} className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all cursor-pointer select-none ${formData.feeType === ft.id ? 'bg-bidv-blue/10 border-bidv-blue text-bidv-blue font-semibold' : 'bg-background border-border text-muted-foreground'}`}>
                   <div className={`w-3 h-3 rounded-full border ${formData.feeType === ft.id ? 'bg-bidv-blue border-bidv-blue' : 'border-muted-foreground'}`} />
-                  <span className="text-[11px]">{ft.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-3 p-4 bg-muted/30 rounded-xl border border-border/40">
-          <div className="flex items-center justify-between mb-2">
-            <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Người hưởng</p>
-            <div className="flex gap-2">
-              <button onClick={handleSaveBeneficiary} className="text-[10px] px-3 py-1 bg-emerald-600 text-white rounded-full font-bold hover:bg-emerald-700 transition-all shadow-sm">
-                LƯU
-              </button>
-              <button onClick={() => setShowPicker(true)} className="text-[10px] px-3 py-1 bg-bidv-blue text-white rounded-full font-bold transition-all shadow-sm">
-                DANH BẠ
-              </button>
-              <button onClick={() => setShowHistory(true)} className="text-[10px] px-3 py-1 bg-slate-600 text-white rounded-full font-bold transition-all shadow-sm">
-                LỊCH SỬ
-              </button>
-            </div>
-          </div>
-          <InputField label="Tên người hưởng" value={formData.beneficiaryName} onChange={v => updateField('beneficiaryName', v)} />
-          <InputField label="Số tài khoản" value={formData.beneficiaryAccount} onChange={v => updateField('beneficiaryAccount', v)} mono />
-          <InputField label="Tại Ngân hàng" value={formData.beneficiaryBank} onChange={v => updateField('beneficiaryBank', v)} />
-          <InputField label="Địa chỉ" value={formData.beneficiaryAddress} onChange={v => updateField('beneficiaryAddress', v)} />
-        </div>
-
-        <InputField label="Nội dung thanh toán" value={formData.remarks} onChange={v => updateField('remarks', v)} placeholder="Nội dung chuyển tiền..." />
-      </div>
-
-      <div className="px-5 py-4 border-t border-border bg-card shadow-sm shrink-0">
-        <div className="flex gap-3">
-          <button onClick={handleExportPDF} disabled={exporting} className="flex-1 bg-bidv-blue text-white py-3 rounded-xl font-bold text-sm hover:bg-opacity-90 disabled:opacity-50 transition-all shadow-md">
-            {exporting ? 'ĐANG XỬ LÝ...' : '📄 XUẤT PDF A4'}
-          </button>
-          <button onClick={() => { if (formData.beneficiaryName && formData.amount) onSaveTransaction(); window.print(); }} className="px-5 py-3 border border-border rounded-xl text-sm font-medium hover:bg-muted transition-colors">
-            🖨️ IN
-          </button>
-        </div>
-      </div>
-    </aside>
-  );
-}
+                  <span className="
