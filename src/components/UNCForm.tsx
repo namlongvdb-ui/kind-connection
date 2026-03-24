@@ -204,20 +204,28 @@ export default function UNCForm({
         </div>
       )}
 
-      {/* HEADER */}
-      <div className="bg-primary px-5 py-4 text-primary-foreground text-center relative overflow-hidden shrink-0 shadow-lg">
-        <style>{`
-          @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-          .animate-copy-right { display: inline-block; white-space: nowrap; animation: marquee 20s linear infinite; }
-        `}</style>
-        <h2 className="text-lg font-extrabold uppercase tracking-[0.15em]">Lập ủy nhiệm chi</h2>
-        <div className="w-full border-t border-primary-foreground/10 mt-2 pt-2 overflow-hidden">
-          <div className="animate-copy-right text-[9px] font-medium opacity-70 tracking-widest uppercase">
-            Copyright by Trần Nam Long — VDB Chi nhánh KV Bắc Đông Bắc, PGD Cao Bằng
+     // Tìm đến phần HEADER trong code của anh và thay thế bằng đoạn này:
+
+      {/* HEADER: Chữ chạy bình thường, không viết hoa toàn bộ */}
+      <div className="bg-white px-6 py-5 border-b border-slate-200 relative shrink-0">
+        <h2 className="text-sm font-black text-slate-800 uppercase tracking-[0.2em] flex items-center gap-2">
+          Lập ủy nhiệm chi
+        </h2>
+        <div className="mt-1 overflow-hidden">
+          <style>{`
+            @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+            /* Bỏ text-transform: uppercase để hiện chữ bình thường */
+            .animate-footer { 
+              display: inline-block; 
+              white-space: nowrap; 
+              animation: marquee 25s linear infinite; 
+            }
+          `}</style>
+          <div className="animate-footer text-[10px] font-medium text-slate-500 tracking-wide">
+            Bản quyền thuộc về Trần Nam Long — VDB Chi nhánh KV Bắc Đông Bắc, PGD Cao Bằng
           </div>
         </div>
       </div>
-
       <div className="flex-1 overflow-y-auto px-5 py-6 space-y-8 custom-scrollbar bg-slate-50/30">
         
         {/* SECTION: THÔNG TIN CHUNG */}
