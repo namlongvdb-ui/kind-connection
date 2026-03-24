@@ -169,10 +169,10 @@ export default function UNCForm({
           @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
           .animate-copy-right { display: inline-block; white-space: nowrap; animation: marquee 15s linear infinite; }
         `}</style>
-        <h2 className="text-lg font-bold uppercase tracking-wider">Ủy nhiệm chi</h2>
+        <h2 className="text-lg font-bold uppercase tracking-wider">Lập ủy nhiệm chi</h2>
         <div className="w-full border-t border-primary-foreground/20 mt-1 pt-1 overflow-hidden">
           <div className="animate-copy-right text-[10px] font-medium opacity-90 text-white/80">
-            Copyright by Trần Nam Long NHPTVN-Chi nhánh KV Bắc Đông Bắc, PGD Cao Bằng
+            Copyright by Trần Nam Long VDB-Chi nhánh KV Bắc Đông Bắc, PGD Cao Bằng
           </div>
         </div>
       </div>
