@@ -42,14 +42,23 @@ export default function UNCForm({
   const [showPicker, setShowPicker] = useState(false);
   const [exporting, setExporting] = useState(false);
 
+  // Khởi động chương trình với các trường trống không
   useEffect(() => {
-    if (!formData.payerName) {
-      updateField('payerName', 'NHPTVN-Chi nhánh KV Bắc Đông Bắc, PGD Cao Bằng');
-      updateField('payerAddress', 'Số 32, phố Xuân Trường, phường Thục Phán, TP. Cao Bằng, tỉnh Cao Bằng');
-      updateField('payerAccount', '3300013207');
-      updateField('payerBank', 'BIDV-Chi nhánh Cao Bằng');
-    }
+    // Để trống hoàn toàn theo yêu cầu
   }, []);
+
+  const handleSetDefault = () => {
+    // Điền thông tin Bên trả tiền
+    updateField('payerName', 'NHPTVN-Chi nhánh KV Bắc Đông Bắc,PGD Cao Bằng');
+    updateField('payerAddress', 'Số 32, phố Xuân Trường, phường Thục Phán, tỉnh Cao Bằng');
+    updateField('payerAccount', '3300013207');
+    updateField('payerBank', 'BIDV - Chi nhánh Cao Bằng');
+
+    // Điền thông tin Người hưởng
+    updateField('beneficiaryName', 'Dánh sách cá nhân kèm theo');
+    updateField('beneficiaryAccount', '280701009');
+    updateField('beneficiaryBank', 'BIDV - Chi nhánh Cao Bằng');
+  };
 
   const handleExportPDF = async () => {
     setExporting(true);
@@ -78,7 +87,6 @@ export default function UNCForm({
     updateField('feeType', formData.feeType === id ? '' : id);
   };
 
-  // LƯU NGƯỜI HƯỞNG (KHÔNG CÓ ALERT)
   const handleSaveBeneficiary = () => {
     if (!formData.beneficiaryName || !formData.beneficiaryAccount) return;
     onSaveBeneficiary({
@@ -92,7 +100,6 @@ export default function UNCForm({
     });
   };
 
-  // CHỌN TỪ DANH BẠ
   const selectBeneficiary = (b: Beneficiary) => {
     updateField('beneficiaryName', b.name);
     updateField('beneficiaryAccount', b.account);
@@ -109,19 +116,18 @@ export default function UNCForm({
   return (
     <aside className="w-[420px] shrink-0 bg-card border-r border-border flex flex-col h-screen overflow-hidden relative">
       
-      {/* GIAO DIỆN DANH BẠ HIỆN LÊN KHI NHẤN NÚT */}
+      {/* GIAO DIỆN DANH BẠ */}
       {showPicker && (
         <div className="absolute inset-0 z-50 bg-background/98 backdrop-blur-md p-5 flex flex-col shadow-2xl animate-in fade-in zoom-in duration-200">
           <div className="flex justify-between items-center mb-6 border-b pb-3">
-  <h3 className="font-bold text-bidv-blue uppercase text-sm tracking-wider">Danh bạ người hưởng</h3>
-    {/* Thay nút ✕ bằng nút Close có thiết kế rõ ràng */}
-  <button 
-    onClick={() => setShowPicker(false)} 
-    className="px-3 py-1.5 bg-muted hover:bg-red-100 hover:text-red-600 text-muted-foreground rounded-lg text-xs font-bold transition-all border border-border"
-  >
-    CLOSE
-  </button>
-</div>
+            <h3 className="font-bold text-bidv-blue uppercase text-sm tracking-wider">Danh bạ người hưởng</h3>
+            <button 
+              onClick={() => setShowPicker(false)} 
+              className="px-3 py-1 bg-muted hover:bg-red-50 hover:text-red-600 text-muted-foreground rounded-md text-[10px] font-bold transition-all border border-border"
+            >
+              CLOSE
+            </button>
+          </div>
           <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
             {beneficiaries.length === 0 ? (
               <div className="text-center py-20">
@@ -170,9 +176,17 @@ export default function UNCForm({
       <div className="flex-1 overflow-y-auto px-5 py-4 space-y-6 custom-scrollbar">
         <InputField label="Ngày" sublabel="Date" value={formData.date} onChange={v => updateField('date', v)} placeholder="DD/MM/YYYY" />
 
-        {/* BÊN TRẢ TIỀN */}
+        {/* BÊN TRẢ TIỀN - CÓ NÚT MẶC ĐỊNH PHÍA TRÊN */}
         <div className="space-y-3 p-4 bg-muted/30 rounded-xl border border-border/40">
-          <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-2">Bên trả tiền (Payer)</p>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Bên trả tiền (Payer)</p>
+            <button 
+              onClick={handleSetDefault} 
+              className="text-[10px] px-3 py-1 bg-amber-500 text-white rounded-full font-bold hover:bg-amber-600 active:scale-95 transition-all shadow-sm"
+            >
+              MẶC ĐỊNH
+            </button>
+          </div>
           <InputField label="Tên tài khoản trích nợ" value={formData.payerName} onChange={v => updateField('payerName', v)} />
           <InputField label="Địa chỉ" value={formData.payerAddress} onChange={v => updateField('payerAddress', v)} />
           <InputField label="Số tài khoản" value={formData.payerAccount} onChange={v => updateField('payerAccount', v)} mono />
@@ -248,14 +262,9 @@ export default function UNCForm({
           <div className="grid grid-cols-1 gap-4 pt-3 mt-1 border-t border-dotted border-border">
             <InputField label="Số CCCD/Hộ chiếu" value={formData.beneficiaryCCCD} onChange={v => updateField('beneficiaryCCCD', v)} mono />
             <div className="grid grid-cols-2 gap-4">
-  <InputField 
-    label="Ngày cấp" 
-    value={formData.cccdDate} 
-    onChange={v => updateField('cccdDate', v)} 
-    type="date" // Chuyển sang chọn ngày tháng
-  />
-  <InputField label="Nơi cấp" value={formData.cccdPlace} onChange={v => updateField('cccdPlace', v)} />
-</div>
+              <InputField label="Ngày cấp" value={formData.cccdDate} onChange={v => updateField('cccdDate', v)} type="date" />
+              <InputField label="Nơi cấp" value={formData.cccdPlace} onChange={v => updateField('cccdPlace', v)} />
+            </div>
           </div>
         </div>
 
