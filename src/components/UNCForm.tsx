@@ -137,7 +137,7 @@ export default function UNCForm({
           <div className="flex justify-between items-center mb-6 border-b pb-3">
             <h3 className="font-bold text-bidv-blue uppercase text-sm tracking-wider">Danh bạ người hưởng</h3>
             <button onClick={() => setShowPicker(false)} className="px-3 py-1 bg-muted hover:bg-red-50 hover:text-red-600 text-muted-foreground rounded-md text-[10px] font-bold transition-all border border-border">
-              CLOSE
+              ĐÓNG
             </button>
           </div>
           <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
