@@ -227,10 +227,10 @@ export default function UNCForm({
             </div>
             <div className="flex gap-2 pb-1">
               <button onClick={handleNewForm} className="text-[10px] px-3 py-1.5 bg-red-600 text-white rounded-md font-bold hover:bg-red-700 transition-all shadow-sm active:scale-95 uppercase tracking-tighter">
-                Lập mới
+                ✨Lập mới
               </button>
               <button onClick={handleSetDefault} className="text-[10px] px-3 py-1.5 bg-amber-500 text-white rounded-md font-bold hover:bg-amber-600 transition-all shadow-sm active:scale-95 uppercase tracking-tighter">
-                Mặc định
+                🏠Mặc định
               </button>
             </div>
         </div>
@@ -286,13 +286,13 @@ export default function UNCForm({
             </p>
             <div className="flex gap-1.5">
               <button onClick={handleSaveBeneficiary} className="text-[9px] px-2.5 py-1 bg-emerald-600 text-white rounded-md font-bold hover:bg-emerald-700 transition-all uppercase tracking-tighter shadow-sm">
-                Lưu
+                💾Lưu
               </button>
               <button onClick={() => setShowPicker(true)} className="text-[9px] px-2.5 py-1 bg-bidv-blue text-white rounded-md font-bold hover:opacity-90 transition-all uppercase tracking-tighter shadow-sm">
-                Danh bạ
+                📖Danh bạ
               </button>
               <button onClick={() => setShowHistory(true)} className="text-[9px] px-2.5 py-1 bg-slate-600 text-white rounded-md font-bold hover:opacity-90 transition-all uppercase tracking-tighter shadow-sm">
-                Lịch sử
+                ⌛Lịch sử
               </button>
             </div>
           </div>
