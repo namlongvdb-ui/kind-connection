@@ -172,15 +172,16 @@ export default function UNCForm({
               <div className="text-center py-20 text-xs text-muted-foreground italic">Chưa có lịch sử giao dịch.</div>
             ) : (
               [...history].reverse().map((record) => {
-                const targetData = record.data || record;
-                const bName = targetData.beneficiaryName || (record as any).beneficiaryName || "N/A";
-                const amt = targetData.amount || (record as any).amount || "0";
+                const bName = record.formData.beneficiaryName || "N/A";
+                const amt = record.formData.amount || "0";
+                const remarks = record.formData.remarks || "";
 
                 return (
                   <div key={record.id} onClick={() => selectHistoryRecord(record)} className="p-4 border border-border/60 rounded-xl hover:border-bidv-blue hover:bg-bidv-blue/5 cursor-pointer transition-all group relative shadow-sm bg-background">
                     <p className="font-bold text-xs uppercase text-foreground truncate w-[85%]">{bName}</p>
+                    {remarks && <p className="text-[10px] text-muted-foreground/70 truncate mt-0.5">{remarks}</p>}
                     <div className="flex justify-between items-center mt-2">
-                      <span className="text-[10px] text-muted-foreground">{record.timestamp}</span>
+                      <span className="text-[10px] text-muted-foreground">{record.savedAt}</span>
                       <span className="text-xs font-mono font-bold text-bidv-blue">{formatCurrency(parseInt(amt))}đ</span>
                     </div>
                     <button onClick={(e) => { e.stopPropagation(); onRemoveTransaction(record.id); }} className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 text-red-500 text-xs transition-opacity">🗑️</button>
