@@ -219,10 +219,10 @@ export default function UNCForm({
           <div className="flex items-center justify-between mb-2">
             <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em]">Bên trả tiền</p>
             <div className="flex gap-2">
-              <button onClick={handleNewForm} className="text-[10px] px-3 py-1 bg-red-500 text-white rounded-full font-bold hover:bg-red-600 transition-all shadow-sm">
+              <button onClick={handleNewForm} className="text-[10px] px-3 py-1 bg-emerald-500 text-white rounded-full font-bold hover:bg-emerald-600 transition-all shadow-sm">
                 NEW
               </button>
-              <button onClick={handleSetDefault} className="text-[10px] px-3 py-1 bg-amber-500 text-white rounded-full font-bold hover:bg-amber-600 transition-all shadow-sm">
+              <button onClick={handleSetDefault} className="text-[10px] px-3 py-1 bg-bidv-blue text-white rounded-full font-bold hover:bg-bidv-blue transition-all shadow-sm">
                 MẶC ĐỊNH
               </button>
             </div>
